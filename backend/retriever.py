@@ -1,0 +1,3 @@
+"""
+LlamaIndex + pgvector retrieval logic.
+"""

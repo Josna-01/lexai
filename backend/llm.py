@@ -1,0 +1,3 @@
+"""
+Gemini prompt + response generation.
+"""

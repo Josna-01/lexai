@@ -1,0 +1,1 @@
+-- Schema definition for pgvector table and match_documents search function.
