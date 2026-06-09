@@ -99,14 +99,17 @@ React Chat UI (mobile-first)
 | Google Stitch | UI component design and prototyping |
 | Antigravity | Primary IDE |
 
-### Future (Foundry IQ Migration Path)
-| Current | Replacement |
-|---------|------------|
-| Supabase pgvector | Azure AI Search |
-| Gemini embeddings | Azure OpenAI embeddings |
-| LlamaIndex pgvector retriever | Microsoft Foundry IQ retriever |
+### Pluggable Intelligence Layer (Microsoft Foundry IQ Integration)
+LexAI is built with a pluggable retriever architecture, allowing seamless switching between local open-source components and enterprise Microsoft infrastructure:
 
-Everything above the retriever layer remains unchanged on migration.
+| Component | Local / Development Mode | Enterprise / Azure Mode |
+|-----------|--------------------------|-------------------------|
+| **Vector Index** | Supabase pgvector | Azure AI Search |
+| **Embeddings** | Gemini text-embedding-004 | Azure OpenAI Embeddings |
+| **Retriever Layer** | LlamaIndex PGVector | Microsoft Foundry IQ Retriever |
+
+This is toggleable instantly in the configuration using the `RETRIEVER_TYPE` environment variable.
+
 
 ---
 
@@ -131,10 +134,13 @@ Initial corpus (MVP scope):
 lexai/
 ├── backend/
 │   ├── main.py                  # FastAPI app entry point
-│   ├── retriever.py             # LlamaIndex + pgvector retrieval logic
+│   ├── retriever.py             # Main retriever router
+│   ├── pgvector_retriever.py    # LlamaIndex + pgvector retrieval logic
+│   ├── foundry_retriever.py     # Microsoft Foundry IQ retrieval logic
 │   ├── llm.py                   # Gemini prompt + response generation
 │   ├── models.py                # Pydantic request/response models
 │   └── config.py                # Environment variables
+
 │
 ├── ingestion/
 │   ├── extract.py               # PDF text extraction (pdfplumber + pytesseract)
@@ -319,8 +325,9 @@ npm run dev
 
 ## Known Constraints & Decisions
 
-**Why not Azure Foundry IQ now?**
-SJEC runs on Google Workspace. Azure for Students requires a Microsoft-federated institutional email. Azure access will be integrated in Phase 6 when institutional access is available. The retriever layer is isolated so migration is a config swap, not a rewrite.
+**How is Microsoft Foundry IQ integrated?**
+The backend is designed with a pluggable retriever pattern. By default, the application runs on a local Supabase pgvector instance for ease of development. By setting the environment variable `RETRIEVER_TYPE=foundry`, the application dynamically switches to the Microsoft Foundry IQ and Azure AI Search retriever module (`backend/foundry_retriever.py`), ensuring enterprise compatibility and compliance with Microsoft's agentic architecture.
+
 
 **Why 4 acts for MVP?**
 Retrieval quality degrades with too many documents in scope. Better to do 4 acts well — with validated retrieval — than 20 acts poorly. Corpus expands in later phases.

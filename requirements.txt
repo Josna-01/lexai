@@ -1,1 +1,20 @@
-# Python requirements for LexAI backend and ingestion.
+# FastAPI Backend
+fastapi>=0.100.0
+uvicorn>=0.22.0
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
+python-dotenv>=1.0.0
+
+# Database & AI Services
+supabase>=1.0.0
+google-generativeai>=0.3.0
+llama-index>=0.9.0
+
+# Microsoft Foundry IQ / Azure SDKs
+azure-ai-projects>=1.0.0b1
+azure-identity>=1.15.0
+
+# PDF Ingestion & OCR
+pdfplumber>=0.10.0
+pytesseract>=0.3.10
+pillow>=10.0.0
