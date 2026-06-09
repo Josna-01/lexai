@@ -346,11 +346,6 @@ Adds scope without validating the core retrieval hypothesis. Cut for MVP, added 
 |------|------|
 | Amisha Josna D'Souza | Lead Developer, System Architect |
 
----
-
-## License
-
-MIT
 
 ---
 
