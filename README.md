@@ -1,342 +1,166 @@
-# LexAI — Legal Aid Intelligence Agent
+# LexAI — Multilingual Legal Aid for Indian Citizens
 
-> Free, instant, multilingual access to Indian legal rights — for every citizen, on any phone.
-
----
-
-## What Is LexAI?
-
-LexAI is an AI-powered legal aid agent that bridges the gap between Indian citizens and the laws that protect them. A user describes their problem in plain Kannada, Hindi, or English. LexAI identifies the applicable legislation, retrieves the exact relevant sections from verified government documents, and returns a clear, cited, actionable response — in the user's language — telling them what their rights are and exactly how to act on them.
-
-No lawyers. No jargon. No cost. No hallucination.
+> **Free, instant, multilingual legal aid for Indian citizens — delivering civic awareness through interactive play and grounded conversation.**
+> Built for the Microsoft AI Skills Fest Hackathon — Battle #1: Creative Apps with GitHub Copilot.
 
 ---
 
-## The Problem
+## 📖 The Problem
+Over **50 crore people** in India face legal disputes or rights violations every year. However, fewer than 10% can afford legal representation. The remaining 90% (such as daily wage workers, online shoppers, domestic helpers, and college students) are left vulnerable simply because they do not know what the law says or how to act on it.
 
-India has ~50 crore people who face legal disputes or rights violations every year. Fewer than 10% can afford legal counsel. The remaining 90% — daily wage workers, farmers, domestic workers, rural women, senior citizens — are left without guidance at the moments they need it most.
-
-The barriers are linguistic, geographic, and systemic. The laws exist. The rights exist. The remedies exist. What does not exist is an accessible bridge between a person's problem and the law that solves it.
-
----
-
-## Target Users
-
-- Daily wage workers facing wage theft or unsafe working conditions
-- Women in rural and semi-urban areas facing harassment or domestic violence
-- Small business owners dealing with consumer disputes
-- Students and young professionals facing cyber harassment or data privacy violations
-- Senior citizens facing property disputes or pension grievances
-- Any citizen who needs to understand their rights under Indian law
+Legalese is complex, official documentation is almost exclusively in English, and legal systems are intimidating. There is a critical lack of an accessible, safety-first bridge between everyday problems and the statutes that resolve them.
 
 ---
 
-## Architecture Overview
+## 🚀 What LexAI Does
 
-LexAI is a three-layer RAG (Retrieval-Augmented Generation) system.
+LexAI bridges this gap through a unified product ecosystem with three standout features:
 
-```
-User Query (Kannada / Hindi / English)
-        │
-        ▼
-┌─────────────────────────────┐
-│     FastAPI Backend         │
-│                             │
-│  1. Embed query             │
-│  2. Retrieve relevant       │
-│     legal chunks from       │
-│     Supabase pgvector       │
-│  3. Pass chunks + query     │
-│     to Gemini 1.5 Flash     │
-│  4. Return cited response   │
-└─────────────────────────────┘
-        │
-        ▼
-React Chat UI (mobile-first)
-```
+### 1. Legal Aid Chat Assistant
+Citizens describe their problems in plain, natural language (including messy multilingual code-mixing like Hindi, Kannada, Hinglish, and Kanglish). LexAI instantly:
+- Detects the input language.
+- Normalizes the query into clean English legal terminology.
+- Performs vector retrieval against official legislation.
+- Explains their rights in simple, native-tongue terms, fully grounded in verified legislation with precise section citations and a District Legal Services Authority (DLSA) fallback.
+
+### 2. Legal Rights Simulator (Choose-Your-Own-Adventure)
+An interactive story game where citizens play through real Indian legal scenarios:
+- **Scenario 1: Withheld Wages** (Payment of Wages Act, 1936) — Ravi, a factory worker in Mangaluru.
+- **Scenario 2: The Defective Refund** (Consumer Protection Act, 2019) — Priya, an online laptop buyer.
+- **Scenario 3: Cyber Harassment** (IT Act, 2000) — Aisha, a college student facing cyber bullying.
+Players choose paths, see immediate legal consequences, gain/lose legal knowledge points, and read AI explanations grounded in retrieved acts. When finished, they can seamlessly transition to the Chat Assistant with their scenario preloaded.
+
+### 3. LexAI MCP Server (VS Code Extension)
+Exposes LexAI's legal knowledge base directly inside VS Code via the **Model Context Protocol (MCP)**. Developers using **GitHub Copilot Chat** can query Indian legislation live while writing code. LexAI goes beyond just using Copilot — it extends Copilot's capabilities.
 
 ---
 
-## Tech Stack
+## 🛠️ Microsoft Ecosystem & AI Integration
 
-### Knowledge Layer (Data Pipeline)
-| Tool | Purpose |
-|------|---------|
-| `pdfplumber` | Extract text from Indian legislation PDFs |
-| `pytesseract` | OCR fallback for scanned/image-based PDFs |
-| Custom chunker | Split text by section with metadata tagging |
-| Supabase pgvector | Vector database for storing embedded chunks |
-| Gemini text-embedding-004 | Generate embeddings for chunks and queries |
+LexAI integrates multiple enterprise-grade cloud services to deliver premium, reliable performance at zero cost:
 
-### Intelligence Layer (Backend)
-| Tool | Purpose |
-|------|---------|
-| FastAPI | Backend API server |
-| LlamaIndex | RAG orchestration — retrieval pipeline |
-| Gemini 1.5 Flash | LLM for multilingual answer generation |
-| Python 3.11+ | Runtime |
+```mermaid
+graph TD
+    User([User Query / Game Action]) --> Lang[Azure AI Language Service]
+    Lang -->|Detect Language| Pipeline[Query Normalizer & Pipeline]
+    Pipeline -->|Gemini Normalization| Search[Azure AI Search F0 / Foundry IQ]
+    Search -->|Grounded Chunks| Reasoning[Gemini 2.0 Flash]
+    Reasoning -->|Citations & Translation| ChatResponse([Native Language Chat Response])
 
-### Interface Layer (Frontend)
-| Tool | Purpose |
-|------|---------|
-| Google Stitch | UI design and component generation |
-| React + TypeScript | Frontend framework |
-| Vite | Build tool |
-| Tailwind CSS | Styling |
-| Vercel | Frontend deployment |
+    subgraph "Local Fallbacks"
+        Search -.->|Fallback if Azure Offline| Supa[Supabase pgvector]
+    end
+    
+    subgraph "VS Code Integration"
+        VS[VS Code / GitHub Copilot] <-->|Model Context Protocol| MCP[LexAI MCP Server]
+        MCP <--> Search
+    end
+```
 
-### Infrastructure
-| Tool | Purpose |
-|------|---------|
-| Supabase | Database + vector storage + auth |
-| Render / Railway | Backend deployment |
-| GitHub | Version control |
-
-### Development Tools
-| Tool | Purpose |
-|------|---------|
-| GitHub Copilot | Code generation throughout all layers |
-| Google Stitch | UI component design and prototyping |
-| Antigravity | Primary IDE |
-
-### Pluggable Intelligence Layer (Microsoft Foundry IQ Integration)
-LexAI is built with a pluggable retriever architecture, allowing seamless switching between local open-source components and enterprise Microsoft infrastructure:
-
-| Component | Local / Development Mode | Enterprise / Azure Mode |
-|-----------|--------------------------|-------------------------|
-| **Vector Index** | Supabase pgvector | Azure AI Search |
-| **Embeddings** | Gemini text-embedding-004 | Azure OpenAI Embeddings |
-| **Retriever Layer** | LlamaIndex PGVector | Microsoft Foundry IQ Retriever |
-
-This is toggleable instantly in the configuration using the `RETRIEVER_TYPE` environment variable.
-
+- **Microsoft Foundry IQ & Azure AI Search (F0 Free Tier)**: Indexes text-based legislation PDFs (`Payment of Wages Act 1936`, `Consumer Protection Act 2019`, `IT Act 2000`) and serves as the primary vector retrieval layer.
+- **Azure AI Language Service (F0 Free Tier)**: Detects user language dynamically (supporting Hindi, Kannada, and English) to govern subsequent responses.
+- **Gemini 2.0 Flash (Free Tier)**: Used as the core intelligence layer for multilingual query normalization, choice grading, reasoning over legal documents, and generating cited explanations.
+- **Supabase pgvector (Free Tier)**: Integrates as a local/development database and fallback retrieval source to ensure 100% demo uptime.
 
 ---
 
-## Legal Knowledge Base
+## 🗣️ Multilingual Pipeline
+Because Indian citizens rarely communicate in pure legal English or formal Hindi/Kannada, LexAI handles code-mixed input seamlessly:
 
-Initial corpus (MVP scope):
-
-| Legislation | Coverage |
-|-------------|---------|
-| Consumer Protection Act, 2019 | Consumer disputes, refunds, complaints |
-| Payment of Wages Act, 1936 | Wage theft, delayed payments, complaints |
-| Bharatiya Nyaya Sanhita (BNS) | Harassment, assault, domestic violence sections |
-| Right to Information Act, 2005 | Filing RTI applications |
-| Protection of Women from Domestic Violence Act, 2005 | DV complaints, One Stop Centres |
-| IT Act, 2000 | Cyber harassment, data privacy violations |
+1. **Language Detection**: `azure-ai-textanalytics` detects the dominant language (e.g. `'hi'` or `'kn'`).
+2. **Query Normalization**: Gemini normalizes messy input (e.g. `"boss ne 3 mahine se salary nahi di"` or `"salary siglilla"`) into standard English (e.g. `"Employer has not paid salary for 3 months"`).
+3. **Index Retrieval**: Queries the English-only Azure AI Search index using the normalized text.
+4. **Reasoning & Native Output**: Gemini reads the retrieved English laws, reasons over them, and answers the citizen in their detected language (Hindi/Kannada/English) with citations.
 
 ---
 
-## Project Structure
-
-```
-lexai/
-├── backend/
-│   ├── main.py                  # FastAPI app entry point
-│   ├── retriever.py             # Main retriever router
-│   ├── pgvector_retriever.py    # LlamaIndex + pgvector retrieval logic
-│   ├── foundry_retriever.py     # Microsoft Foundry IQ retrieval logic
-│   ├── llm.py                   # Gemini prompt + response generation
-│   ├── models.py                # Pydantic request/response models
-│   └── config.py                # Environment variables
-
-│
-├── ingestion/
-│   ├── extract.py               # PDF text extraction (pdfplumber + pytesseract)
-│   ├── chunk.py                 # Section-level chunking with metadata
-│   ├── embed.py                 # Embedding generation + Supabase upload
-│   └── data/
-│       └── raw/                 # Raw legislation PDFs (not committed to Git)
-│
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── ChatWindow.tsx
-│   │   │   ├── MessageBubble.tsx
-│   │   │   └── CitationTag.tsx
-│   │   ├── App.tsx
-│   │   └── main.tsx
-│   └── index.html
-│
-├── supabase/
-│   └── schema.sql               # pgvector table + match_documents function
-│
-├── .env.example
-├── requirements.txt
-└── README.md
-```
+## 🔒 Safety-First Design
+To protect users from receiving wrong legal advice, LexAI implements strict architectural boundaries:
+- **Clarifying Questions**: If key context (e.g. state, employment status) is missing, the assistant asks exactly one clarifying question before returning answers.
+- **Required Citations**: Every legal statement must cite an official act and section (e.g. `[Payment of Wages Act, 1936, Section 15]`). If no relevant chunks are found, it defaults to the DLSA.
+- **Scope Limitations**: Explicitly filters out out-of-scope legal domains (e.g. criminal defense, taxation, family disputes, property disputes) and redirects them.
+- **DLSA Fallback**: Answers end with a standard notice directing users to contact their District Legal Services Authority (DLSA) for free representation.
 
 ---
 
-## Data Flow
+## 🤖 GitHub Copilot Integration
 
-### Ingestion Pipeline (run once per legislation)
-```
-Raw PDF
-  → pdfplumber extracts text
-  → pytesseract handles scanned pages
-  → Chunker splits by section boundary
-  → Each chunk tagged with {act, section, heading, year}
-  → Gemini embedding generated per chunk
-  → Stored in Supabase pgvector table
-```
-
-### Query Pipeline (every user message)
-```
-User message (any language)
-  → Gemini embedding generated for query
-  → pgvector cosine similarity search → top 5 chunks retrieved
-  → Chunks + original query passed to Gemini 1.5 Flash
-  → System prompt enforces: plain language, citations, procedural steps, lawyer fallback
-  → Response returned with source citations
-  → Displayed in chat UI with citation tags
-```
+GitHub Copilot acted as the lead pair-programmer during development:
+- **Inline Suggestions**: Used to implement FastAPI routes, Pydantic validation schemas, Pydantic Settings configurations, and rate-limiting backoffs.
+- **Copilot Chat**: Utilized for debugging the standard input/output (stdio) streams of the MCP server, defining the JSON-RPC interface, and generating VS Code configuration overrides.
+- **MCP Extension**: Allows Copilot to use tools like `search_laws` and `explain_law_section` directly during development and user demos.
 
 ---
 
-## Supabase Schema
-
-```sql
--- Enable pgvector extension
-create extension if not exists vector;
-
--- Legal document chunks table
-create table legal_chunks (
-  id          uuid primary key default gen_random_uuid(),
-  act         text not null,
-  section     text,
-  heading     text,
-  year        int,
-  content     text not null,
-  embedding   vector(768),
-  created_at  timestamptz default now()
-);
-
--- Similarity search function
-create or replace function match_documents(
-  query_embedding vector(768),
-  match_count     int default 5
-)
-returns table (
-  id        uuid,
-  act       text,
-  section   text,
-  heading   text,
-  content   text,
-  similarity float
-)
-language sql stable
-as $$
-  select
-    id, act, section, heading, content,
-    1 - (embedding <=> query_embedding) as similarity
-  from legal_chunks
-  order by embedding <=> query_embedding
-  limit match_count;
-$$;
-```
-
----
-
-## System Prompt Design
-
-The LLM layer uses a strict system prompt to prevent hallucination and enforce citation:
-
-```
-You are LexAI, a legal aid assistant for Indian citizens.
-You will be given retrieved sections from verified Indian legislation.
-Your job is to:
-1. Identify which retrieved sections apply to the user's situation
-2. Explain their rights in simple, plain language (no legal jargon)
-3. Provide step-by-step procedural guidance on how to act
-4. Cite every claim with the act name and section number
-5. If the situation is ambiguous or requires professional judgment, say:
-   "This situation may need a lawyer. Contact your nearest District Legal Services Authority (DLSA) for free legal aid."
-6. Never reference any law section that was not in the retrieved context.
-Only use information from the provided context. Never hallucinate legislation.
-```
-
----
-
-## Environment Variables
-
-```env
-# Supabase
-SUPABASE_URL=
-SUPABASE_SERVICE_KEY=
-
-# Gemini
-GEMINI_API_KEY=
-
-# App
-ENVIRONMENT=development
-MAX_RETRIEVED_CHUNKS=5
-```
-
----
-
-## Setup & Run
+## 💻 How to Run Locally
 
 ### Prerequisites
 - Python 3.11+
 - Node.js 18+
-- Supabase project with pgvector enabled
-- Gemini API key (free tier)
+- Supabase account (if testing fallback Vector DB)
 
-### Backend
+### 1. Configuration (`.env`)
+Create a `.env` file in the root directory:
+```env
+# Azure Search Credentials
+AZURE_SEARCH_ENDPOINT=https://lexai-search.search.windows.net
+AZURE_SEARCH_KEY=your_azure_search_api_key
+AZURE_SEARCH_INDEX=legal-knowledge
+
+# Azure Language Service Credentials
+AZURE_LANGUAGE_ENDPOINT=https://lexai-language.cognitiveservices.azure.com
+AZURE_LANGUAGE_KEY=your_azure_language_api_key
+
+# Gemini API Key
+GEMINI_API_KEY=your_gemini_api_key
+
+# Supabase Fallback (Optional)
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_SERVICE_KEY=your-supabase-key
+
+# App config
+ENVIRONMENT=development
+MAX_RETRIEVED_CHUNKS=5
+RETRIEVER_TYPE=foundry # Set to 'supabase' to test local fallback
+```
+
+### 2. Run Backend (FastAPI)
 ```bash
 cd backend
 pip install -r requirements.txt
-cp .env.example .env
-# fill in .env values
-uvicorn main:app --reload
+uvicorn main:app --reload --port 8000
 ```
 
-### Ingestion (run once)
-```bash
-cd ingestion
-python extract.py --pdf data/raw/consumer_protection_act.pdf
-python chunk.py
-python embed.py
-```
-
-### Frontend
+### 3. Run Frontend (React + Vite)
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
 
+### 4. Run & Load the MCP Server in VS Code
+Add the configuration block below to your VS Code user settings or save it in the workspace folder under `.vscode/mcp.json`:
+```json
+{
+  "mcp.servers": {
+    "lexai-helper": {
+      "command": "python",
+      "args": ["c:/Users/amish/lexai/backend/mcp_server.py"]
+    }
+  }
+}
+```
+Open Copilot Chat inside VS Code, ask:
+> *"How does the Payment of Wages Act protect me from delayed salary? Ask LexAI helper."*
+Copilot will trigger the `search_laws` tool and provide a grounded legal response.
+
 ---
 
-## Build Phases
+## 🔗 Deployment
 
-| Phase | Scope | Status |
-|-------|-------|--------|
-| Phase 1 | PDF ingestion pipeline + Supabase pgvector setup | Planned |
-| Phase 2 | Retrieval validation (20 test queries) | Planned |
-| Phase 3 | LLM prompt layer + citation grounding | Planned |
-| Phase 4 | React chat UI (mobile-first) | Planned |
-| Phase 5 | End-to-end integration + deployment | Planned |
-| Phase 6 | Foundry IQ migration (when Azure access available) | Future |
-
----
-
-## Known Constraints & Decisions
-
-**How is Microsoft Foundry IQ integrated?**
-The backend is designed with a pluggable retriever pattern. By default, the application runs on a local Supabase pgvector instance for ease of development. By setting the environment variable `RETRIEVER_TYPE=foundry`, the application dynamically switches to the Microsoft Foundry IQ and Azure AI Search retriever module (`backend/foundry_retriever.py`), ensuring enterprise compatibility and compliance with Microsoft's agentic architecture.
-
-
-**Why 4 acts for MVP?**
-Retrieval quality degrades with too many documents in scope. Better to do 4 acts well — with validated retrieval — than 20 acts poorly. Corpus expands in later phases.
-
-**Why Gemini over OpenAI?**
-Free tier. Multilingual capability. Existing familiarity from SYNAPSE project.
-
-**Why not voice input in MVP?**
-Adds scope without validating the core retrieval hypothesis. Cut for MVP, added in Phase 2+ if demo goes well.
+- **Frontend**: Deployed to Vercel (React + Tailwind client).
+- **Backend**: Deployed to Render.com (FastAPI server).
+- **Knowledge Base**: Hosted on Microsoft AI Foundry / Azure AI Search.
 
 ---
 
@@ -345,7 +169,6 @@ Adds scope without validating the core retrieval hypothesis. Cut for MVP, added 
 | Name | Role |
 |------|------|
 | Amisha Josna D'Souza | Lead Developer, System Architect |
-
 
 ---
 

@@ -1,0 +1,8 @@
+{
+  "mcp.servers": {
+    "lexai-helper": {
+      "command": "python",
+      "args": ["c:/Users/amish/lexai/backend/mcp_server.py"]
+    }
+  }
+}

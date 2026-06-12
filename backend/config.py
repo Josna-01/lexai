@@ -29,8 +29,21 @@ class Settings(BaseSettings):
     AZURE_OPENAI_API_KEY: Optional[str] = None
     AZURE_OPENAI_ENDPOINT: Optional[str] = None
     FOUNDRY_IQ_INDEX_NAME: Optional[str] = None
+    
+    # Direct Azure AI Search environment variables
+    AZURE_SEARCH_ENDPOINT: Optional[str] = None
+    AZURE_SEARCH_KEY: Optional[str] = None
+    AZURE_SEARCH_INDEX: Optional[str] = None
 
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
+    # Azure AI Language environment variables
+    AZURE_LANGUAGE_ENDPOINT: Optional[str] = None
+    AZURE_LANGUAGE_KEY: Optional[str] = None
+
+    model_config = SettingsConfigDict(
+        env_file=[".env", "../.env"], 
+        env_file_encoding="utf-8", 
+        extra="ignore"
+    )
 
 
 settings = Settings()
