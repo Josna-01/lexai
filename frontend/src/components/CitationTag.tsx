@@ -14,21 +14,21 @@ interface CitationTagProps {
 
 export const CitationTag: React.FC<CitationTagProps> = ({ citation, onClick }) => {
   const { act, section, year } = citation;
-  
+
   // Create display label
   const label = `${act}${year ? `, ${year}` : ''}${section ? ` - Sec ${section}` : ''}`;
-  
+
   return (
     <button
       onClick={onClick}
       type="button"
-      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-primary-900/40 text-primary-300 border border-primary-500/20 hover:border-primary-400/40 hover:bg-primary-900/60 transition-all duration-200 cursor-pointer shadow-sm shadow-black/10"
+      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#0B1120]/80 text-[#F5C518] border border-[#F5C518]/25 hover:border-[#F5C518]/45 hover:bg-[#F5C518]/5 transition-all duration-300 cursor-pointer shadow-[0_2px_8px_rgba(0,0,0,0.4)] hover:-translate-y-0.5"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 20 20"
         fill="currentColor"
-        className="w-3.5 h-3.5"
+        className="w-3.5 h-3.5 opacity-80"
       >
         <path
           fillRule="evenodd"

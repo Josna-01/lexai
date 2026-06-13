@@ -44,3 +44,21 @@ class SimulationStepResponse(BaseModel):
     score_delta: int
     next_node: str  # e.g., "2", "3", "end"
 
+
+class CustomSituationRequest(BaseModel):
+    situation: str
+
+
+class CustomScenarioResponse(BaseModel):
+    title: str
+    character: str
+    nodes: dict  # maps "1", "2", "3", "4", "5" to {"story": str, "choices": {"A": str, "B": str, ...}}
+
+
+class CustomEvaluationRequest(BaseModel):
+    situation: str
+    story: str
+    choice_key: str  # "A", "B", "C", "D"
+    choice_text: str
+
+

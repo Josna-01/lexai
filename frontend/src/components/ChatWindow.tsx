@@ -2,9 +2,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Message, MessageBubble } from './MessageBubble';
 import { VirtualKeyboard } from './VirtualKeyboard';
 import { Citation } from './CitationTag';
-import { 
-  Send, Mic, MicOff, Keyboard as KeyboardIcon, 
-  X, Paperclip, ShieldCheck, Scale, ArrowDown, Info 
+import {
+  Send, Mic, MicOff, Keyboard as KeyboardIcon,
+  X, Paperclip, Scale, ArrowDown, Info
 } from 'lucide-react';
 
 interface ChatWindowProps {
@@ -18,14 +18,14 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({ messages, isLoading, lan
   const [inputText, setInputText] = useState('');
   const [attachedImage, setAttachedImage] = useState<string | null>(null);
   const [attachedImageMime, setAttachedImageMime] = useState<string | null>(null);
-  
+
   // Voice input state
   const [isListening, setIsListening] = useState(false);
   const [recognition, setRecognition] = useState<any>(null);
-  
+
   // Keyboard state
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
-  
+
   // Scroll handlers
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const feedRef = useRef<HTMLDivElement>(null);
@@ -40,7 +40,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({ messages, isLoading, lan
       const rec = new SpeechRecognition();
       rec.continuous = false;
       rec.interimResults = false;
-      
+
       rec.onstart = () => setIsListening(true);
       rec.onend = () => setIsListening(false);
       rec.onerror = (e: any) => {
@@ -116,7 +116,6 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({ messages, isLoading, lan
     reader.onload = (event) => {
       const img = new Image();
       img.onload = () => {
-        // High quality scale down to maximum 800px bounds (saves credit tokens and bandwidth)
         const canvas = document.createElement('canvas');
         const MAX_WIDTH = 800;
         const MAX_HEIGHT = 800;
@@ -140,7 +139,6 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({ messages, isLoading, lan
         const ctx = canvas.getContext('2d');
         ctx?.drawImage(img, 0, 0, width, height);
 
-        // Compress image to JPEG representation
         const compressedBase64 = canvas.toDataURL('image/jpeg', 0.75);
         setAttachedImage(compressedBase64);
         setAttachedImageMime('image/jpeg');
@@ -159,8 +157,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({ messages, isLoading, lan
     setAttachedImage(null);
     setAttachedImageMime(null);
     setIsKeyboardOpen(false);
-    
-    // Auto-focus input again
+
     setTimeout(() => {
       inputRef.current?.focus();
     }, 50);
@@ -190,87 +187,67 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({ messages, isLoading, lan
   };
 
   return (
-    <div className="flex flex-col h-full bg-slate-950 rounded-2xl border border-slate-800 shadow-2xl overflow-hidden glass-panel">
+    <div className="flex-1 flex flex-col min-h-0 relative w-full px-4 sm:px-6">
       
-      {/* Upper Brand Bar */}
-      <div className="px-5 py-4 border-b border-slate-800 bg-slate-950/60 flex items-center justify-between shrink-0">
-        <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-lg bg-gradient-to-tr from-primary-600 to-accent-600 text-white shadow-md">
-            <Scale size={20} />
-          </div>
-          <div>
-            <h2 className="text-sm font-bold text-white flex items-center gap-1.5 leading-none">
-              LexAI Agent 
-              <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[9px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                <ShieldCheck size={9} /> Verified Laws
-              </span>
-            </h2>
-            <p className="text-[10px] text-slate-400 mt-1">Indian Constitution & Legal Rights Companion</p>
-          </div>
-        </div>
-        
-        <div className="flex items-center gap-2">
-          <span className="text-[10px] text-slate-500 font-bold bg-slate-900 border border-slate-800 px-2 py-1 rounded">
-            Active Mode: {language === 'kn' ? 'ಕನ್ನಡ' : language === 'hi' ? 'हिन्दी' : 'English'}
-          </span>
-        </div>
-      </div>
-
-      {/* Main Conversation Stream */}
-      <div 
+      {/* Scrollable Chat Feed */}
+      <div
         ref={feedRef}
         onScroll={handleScroll}
-        className="flex-1 overflow-y-auto px-5 py-3 space-y-4 min-h-0 relative bg-slate-950/40"
+        className="flex-1 overflow-y-auto pt-6 pb-32 space-y-6 scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-transparent relative"
       >
         {messages.length === 0 ? (
           // Onboarding Layout
-          <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-4 max-w-md mx-auto my-auto select-none">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-950 to-slate-900 border border-primary-500/20 flex items-center justify-center text-primary-400 shadow-xl">
+          <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-6 max-w-3xl mx-auto my-auto select-none animate-fade-up">
+            <div className="w-16 h-16 rounded-2xl bg-[#a855f7]/10 border border-[#a855f7]/20 flex items-center justify-center text-[#a855f7] shadow-[0_0_30px_rgba(168,85,247,0.15)]">
               <Scale size={32} />
             </div>
-            <div>
-              <h3 className="text-lg font-bold text-white">Ask your legal queries</h3>
-              <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
+            <div className="space-y-2">
+              <h3 className="text-xl font-bold tracking-tight text-white font-display">Ask your legal queries</h3>
+              <p className="text-sm text-slate-400 leading-relaxed">
                 Describe a situation in Kannada, Hindi, or English. LexAI parses official acts, explains your rights in simple terms, and cites precise sections.
               </p>
             </div>
-            
-            <div className="w-full grid grid-cols-1 gap-2.5 pt-3">
-              <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-left text-[11px] leading-relaxed">
-                <span className="font-bold text-accent-400 block mb-0.5">Example (Consumer Rights):</span>
+
+            <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
+              <div className="p-4.5 rounded-2xl bg-slate-900/40 border border-slate-800/60 text-left text-xs leading-relaxed hover:border-[#a855f7]/30 hover:bg-slate-900/60 hover:shadow-[0_4px_25px_rgba(168,85,247,0.05)] transition-all duration-300 cursor-pointer"
+                   onClick={() => setInputText("I bought a mobile phone from an online seller but they sent a fake model and are refusing a refund.")}>
+                <span className="font-bold text-[#a855f7] block mb-1">Example (Consumer Rights):</span>
                 "I bought a mobile phone from an online seller but they sent a fake model and are refusing a refund."
               </div>
-              <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-left text-[11px] leading-relaxed">
-                <span className="font-bold text-accent-400 block mb-0.5">Example (Labor Rights):</span>
+              <div className="p-4.5 rounded-2xl bg-slate-900/40 border border-slate-800/60 text-left text-xs leading-relaxed hover:border-[#a855f7]/30 hover:bg-slate-900/60 hover:shadow-[0_4px_25px_rgba(168,85,247,0.05)] transition-all duration-300 cursor-pointer"
+                   onClick={() => setInputText("ನನ್ನ ಮಾಲೀಕರು ಕಳೆದ ಎರಡು ತಿಂಗಳಿಂದ ಸಂಬಳ ಕೊಟ್ಟಿಲ್ಲ, ನಾನು ಏನು ಮಾಡಬೇಕು?")}>
+                <span className="font-bold text-[#a855f7] block mb-1">Example (Labor Rights):</span>
                 "ನನ್ನ ಮಾಲೀಕರು ಕಳೆದ ಎರಡು ತಿಂಗಳಿಂದ ಸಂಬಳ ಕೊಟ್ಟಿಲ್ಲ, ನಾನು ಏನು ಮಾಡಬೇಕು? (My employer hasn't paid salary)"
               </div>
             </div>
-            
-            <div className="flex items-center gap-1.5 text-[10px] text-slate-500">
-              <Info size={11} />
+
+            <div className="flex items-center gap-1.5 text-[11px] text-slate-500 pt-4">
+              <Info size={12} className="text-slate-600" />
               <span>Complies with Indian Legislation</span>
             </div>
           </div>
         ) : (
           // Conversation Feed
-          messages.map((msg, idx) => (
-            <MessageBubble 
-              key={idx} 
-              message={msg} 
-              language={language}
-              onCitationClick={handleCitationHighlight}
-            />
-          ))
+          <div className="space-y-6 max-w-3xl mx-auto w-full">
+            {messages.map((msg, idx) => (
+              <MessageBubble
+                key={idx}
+                message={msg}
+                language={language}
+                onCitationClick={handleCitationHighlight}
+              />
+            ))}
+          </div>
         )}
 
         {/* Typing Loading Indicator */}
         {isLoading && (
-          <div className="flex w-full mt-4 justify-start animate-fade-in-up">
+          <div className="flex w-full mt-4 justify-start max-w-3xl mx-auto w-full animate-fade-in-up">
             <div className="flex items-start max-w-[75%] gap-3">
-              <div className="flex items-center justify-center w-8 h-8 rounded-full border bg-primary-950 border-primary-500/30 text-accent-400 shrink-0">
+              <div className="flex items-center justify-center w-9 h-9 rounded-xl border shrink-0 bg-[#a855f7]/10 border-[#a855f7]/30 text-[#a855f7] shadow-[0_0_15px_rgba(168,85,247,0.15)]">
                 <Scale size={16} />
               </div>
-              <div className="glass-panel border-primary-500/20 rounded-2xl rounded-tl-none px-4 py-3 shadow-lg flex items-center gap-1 h-10 select-none">
+              <div className="glass-premium rounded-2xl rounded-tl-none px-4 py-3 shadow-lg flex items-center gap-1 h-10 select-none">
                 <span className="typing-dot"></span>
                 <span className="typing-dot"></span>
                 <span className="typing-dot"></span>
@@ -278,7 +255,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({ messages, isLoading, lan
             </div>
           </div>
         )}
-        
+
         <div ref={messagesEndRef} />
       </div>
 
@@ -286,128 +263,130 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({ messages, isLoading, lan
       {showScrollDown && (
         <button
           onClick={scrollToBottom}
-          className="absolute bottom-28 right-8 p-2 bg-primary-500 text-white rounded-full shadow-lg border border-primary-400 hover:bg-primary-600 transition-all z-10 animate-bounce active:scale-95"
+          className="absolute bottom-28 right-8 p-2 bg-[#a855f7] text-white rounded-full shadow-lg border border-[#a855f7]/30 hover:bg-[#c084fc] transition-all z-20 animate-bounce active:scale-95 cursor-pointer"
         >
           <ArrowDown size={16} />
         </button>
       )}
 
-      {/* Attached Image Thumbnail Bar */}
-      {attachedImage && (
-        <div className="px-5 py-2.5 bg-slate-900/90 border-t border-slate-800/80 flex items-center justify-between shrink-0">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-lg border border-slate-700 overflow-hidden shadow bg-slate-950">
-              <img src={attachedImage} alt="Attachment thumbnail" className="w-full h-full object-cover" />
-            </div>
-            <div>
-              <span className="text-[10px] font-bold text-slate-300 block">Multimodal Attachment Loaded</span>
-              <span className="text-[9px] text-slate-500">Image will be parsed for legal context</span>
-            </div>
-          </div>
-          <button
-            onClick={() => {
-              setAttachedImage(null);
-              setAttachedImageMime(null);
-            }}
-            className="p-1 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 transition-colors cursor-pointer"
-            title="Remove attachment"
-          >
-            <X size={14} />
-          </button>
-        </div>
-      )}
-
-      {/* Typing & Media Inputs Area */}
-      <div className="p-3 border-t border-slate-800 bg-slate-950/80 shrink-0">
-        <div className="flex items-end gap-2 bg-slate-900 border border-slate-800 rounded-xl p-1.5 focus-within:border-primary-500/60 focus-within:ring-1 focus-within:ring-primary-500/40 transition-all">
+      {/* Fixed Floating Input Bar (Centered and Floating) */}
+      <div className="absolute bottom-6 left-0 right-0 px-4 sm:px-6 z-20 pointer-events-none">
+        <div className="max-w-3xl mx-auto w-full pointer-events-auto space-y-2.5">
           
-          {/* File input (Hidden) */}
-          <input 
-            type="file" 
-            ref={fileInputRef} 
-            onChange={handleImageChange}
-            accept="image/*" 
-            className="hidden" 
+          {/* Attached Image Thumbnail Bar */}
+          {attachedImage && (
+            <div className="px-4 py-2 bg-slate-900/90 border border-slate-800 rounded-2xl flex items-center justify-between shrink-0 shadow-2xl animate-fade-up">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-lg border border-slate-700 overflow-hidden shadow bg-slate-950">
+                  <img src={attachedImage} alt="Attachment thumbnail" className="w-full h-full object-cover" />
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold text-slate-300 block">Multimodal Attachment Loaded</span>
+                  <span className="text-[9px] text-slate-500">Image will be parsed for legal context</span>
+                </div>
+              </div>
+              <button
+                onClick={() => {
+                  setAttachedImage(null);
+                  setAttachedImageMime(null);
+                }}
+                className="p-1 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 transition-colors cursor-pointer"
+                title="Remove attachment"
+              >
+                <X size={14} />
+              </button>
+            </div>
+          )}
+
+          {/* Pill-shaped Floating Glass Input Panel */}
+          <div className="bg-[#0b1120]/55 border border-white/8 backdrop-blur-2xl rounded-full p-2 pl-4 pr-3 flex items-center gap-2 shadow-[0_15px_50px_rgba(0,0,0,0.5)] focus-within:border-[#a855f7]/40 transition-all">
+            
+            {/* File input (Hidden) */}
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleImageChange}
+              accept="image/*"
+              className="hidden"
+            />
+
+            {/* Paperclip upload trigger */}
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              type="button"
+              className="p-2 rounded-full text-slate-400 hover:text-slate-200 hover:bg-white/5 transition-colors shrink-0 cursor-pointer"
+              title="Attach image of document/notice"
+            >
+              <Paperclip size={18} />
+            </button>
+
+            {/* Text Area Input */}
+            <textarea
+              ref={inputRef}
+              rows={1}
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder={
+                language === 'kn'
+                  ? "ಕನ್ನಡದಲ್ಲಿ ನಿಮ್ಮ ಕಾನೂನು ಪ್ರಶ್ನೆಯನ್ನು ಕೇಳಿ..."
+                  : language === 'hi'
+                    ? "हिन्दी में अपना कानूनी प्रश्न पूछें..."
+                    : "Type your legal query (English)..."
+              }
+              className="flex-1 resize-none bg-transparent outline-none border-none py-2 px-1 text-slate-100 placeholder-slate-500 text-sm max-h-24 min-h-[36px]"
+            />
+
+            {/* Keyboard Toggle */}
+            <button
+              onClick={() => setIsKeyboardOpen(!isKeyboardOpen)}
+              type="button"
+              className={`p-2 rounded-full transition-colors shrink-0 cursor-pointer ${isKeyboardOpen
+                  ? 'bg-[#a855f7]/10 text-[#a855f7] border border-[#a855f7]/20'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                }`}
+              title="Toggle Visual Typing Assistant"
+            >
+              <KeyboardIcon size={18} />
+            </button>
+
+            {/* Microphone STT Trigger */}
+            <button
+              onClick={toggleListening}
+              type="button"
+              className={`p-2 rounded-full transition-colors shrink-0 cursor-pointer ${isListening
+                  ? 'bg-rose-950 text-rose-400 border border-rose-500/30 animate-pulse-subtle'
+                  : 'text-slate-400 hover:text-rose-400 hover:bg-white/5'
+                }`}
+              title={isListening ? "Listening... click to stop" : "Voice input (Speech to Text)"}
+            >
+              {isListening ? <MicOff size={18} /> : <Mic size={18} />}
+            </button>
+
+            {/* Send Button (Glowing Pill) */}
+            <button
+              onClick={handleSend}
+              disabled={!inputText.trim() && !attachedImage}
+              type="button"
+              className={`p-2.5 rounded-full shrink-0 transition-all ${(inputText.trim() || attachedImage)
+                  ? 'bg-[#a855f7] text-white hover:bg-[#c084fc] shadow-[0_0_15px_rgba(168,85,247,0.3)] cursor-pointer active:scale-95'
+                  : 'text-slate-600 bg-slate-900/20 border border-slate-800/40 cursor-not-allowed'
+                }`}
+            >
+              <Send size={16} className={inputText.trim() || attachedImage ? 'text-white' : 'text-slate-600'} />
+            </button>
+          </div>
+
+          {/* Virtual Keyboard Drawer (Floating) */}
+          <VirtualKeyboard
+            isOpen={isKeyboardOpen}
+            onKeyPress={handleKeyboardPress}
+            onBackspace={handleKeyboardBackspace}
+            onClose={() => setIsKeyboardOpen(false)}
           />
 
-          {/* Paperclip upload trigger */}
-          <button
-            onClick={() => fileInputRef.current?.click()}
-            type="button"
-            className="p-2 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition-colors shrink-0 cursor-pointer"
-            title="Attach image of document/notice"
-          >
-            <Paperclip size={18} />
-          </button>
-
-          {/* Text Area Input */}
-          <textarea
-            ref={inputRef}
-            rows={1}
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder={
-              language === 'kn' 
-                ? "ಕನ್ನಡದಲ್ಲಿ ನಿಮ್ಮ ಕಾನೂನು ಪ್ರಶ್ನೆಯನ್ನು ಕೇಳಿ..." 
-                : language === 'hi' 
-                  ? "हिन्दी में अपना कानूनी प्रश्न पूछें..." 
-                  : "Type your legal query (English)..."
-            }
-            className="flex-1 resize-none bg-transparent outline-none border-none py-1.5 px-1 text-slate-100 placeholder-slate-500 text-sm max-h-24 min-h-[36px]"
-          />
-
-          {/* Keyboard Toggle */}
-          <button
-            onClick={() => setIsKeyboardOpen(!isKeyboardOpen)}
-            type="button"
-            className={`p-2 rounded-lg transition-colors shrink-0 cursor-pointer ${
-              isKeyboardOpen 
-                ? 'bg-primary-950 text-accent-400 border border-primary-500/30' 
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
-            }`}
-            title="Toggle Visual Typing Assistant"
-          >
-            <KeyboardIcon size={18} />
-          </button>
-
-          {/* Microphone STT Trigger */}
-          <button
-            onClick={toggleListening}
-            type="button"
-            className={`p-2 rounded-lg transition-colors shrink-0 cursor-pointer ${
-              isListening 
-                ? 'bg-rose-950 text-rose-400 border border-rose-500/30 animate-pulse-subtle' 
-                : 'text-slate-400 hover:text-rose-400 hover:bg-slate-800/60'
-            }`}
-            title={isListening ? "Listening... click to stop" : "Voice input (Speech to Text)"}
-          >
-            {isListening ? <MicOff size={18} /> : <Mic size={18} />}
-          </button>
-
-          {/* Send Button */}
-          <button
-            onClick={handleSend}
-            disabled={!inputText.trim() && !attachedImage}
-            type="button"
-            className={`p-2.5 rounded-lg shrink-0 transition-all ${
-              (inputText.trim() || attachedImage)
-                ? 'bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white shadow-md cursor-pointer active:scale-95'
-                : 'text-slate-600 bg-slate-950/20 border border-slate-900 cursor-not-allowed'
-            }`}
-          >
-            <Send size={16} />
-          </button>
         </div>
       </div>
-
-      {/* Visual Typing Assistant Drawer */}
-      <VirtualKeyboard
-        isOpen={isKeyboardOpen}
-        onKeyPress={handleKeyboardPress}
-        onBackspace={handleKeyboardBackspace}
-        onClose={() => setIsKeyboardOpen(false)}
-      />
 
     </div>
   );

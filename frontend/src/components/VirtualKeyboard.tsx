@@ -10,12 +10,12 @@ interface VirtualKeyboardProps {
 
 const HINDI_VOWELS = ['अ', 'आ', 'इ', 'ई', 'उ', 'ऊ', 'ऋ', 'ए', 'ऐ', 'ओ', 'औ', 'अं', 'अः'];
 const HINDI_CONSONANTS = [
-  'क', 'ख', 'ग', 'घ', 'ङ', 
-  'च', 'छ', 'ज', 'झ', 'ञ', 
-  'ट', 'ठ', 'ड', 'ढ', 'ण', 
-  'त', 'थ', 'द', 'ध', 'न', 
-  'प', 'फ', 'ब', 'भ', 'म', 
-  'य', 'र', 'ल', 'व', 'श', 
+  'क', 'ख', 'ग', 'घ', 'ङ',
+  'च', 'छ', 'ज', 'झ', 'ञ',
+  'ट', 'ठ', 'ड', 'ढ', 'ण',
+  'त', 'थ', 'द', 'ध', 'न',
+  'प', 'फ', 'ब', 'भ', 'म',
+  'य', 'र', 'ल', 'व', 'श',
   'ष', 'स', 'ह', 'क्ष', 'त्र', 'ज्ञ'
 ];
 const HINDI_MATRAS = ['ा', 'ि', 'ी', 'ु', 'ू', 'ृ', 'े', 'ै', 'ो', 'ौ', 'ं', 'ः', '्'];
@@ -48,26 +48,24 @@ export const VirtualKeyboard: React.FC<VirtualKeyboardProps> = ({ onKeyPress, on
         <div className="flex items-center gap-1.5">
           <Keyboard size={16} className="text-accent-400" />
           <span className="text-xs font-semibold text-slate-300">LexAI Typing Assistant</span>
-          
+
           {/* Language Selector Tabs */}
           <div className="flex ml-4 rounded-lg bg-slate-900 p-0.5 border border-slate-800">
             <button
               onClick={() => setLayout('hi')}
-              className={`text-[10px] font-bold px-2.5 py-1 rounded-md transition-colors ${
-                layout === 'hi' 
-                  ? 'bg-primary-500 text-white shadow-md' 
+              className={`text-[10px] font-bold px-2.5 py-1 rounded-md transition-colors ${layout === 'hi'
+                  ? 'bg-primary-500 text-white shadow-md'
                   : 'text-slate-400 hover:text-slate-200'
-              }`}
+                }`}
             >
               हिन्दी (Hindi)
             </button>
             <button
               onClick={() => setLayout('kn')}
-              className={`text-[10px] font-bold px-2.5 py-1 rounded-md transition-colors ${
-                layout === 'kn' 
-                  ? 'bg-primary-500 text-white shadow-md' 
+              className={`text-[10px] font-bold px-2.5 py-1 rounded-md transition-colors ${layout === 'kn'
+                  ? 'bg-primary-500 text-white shadow-md'
                   : 'text-slate-400 hover:text-slate-200'
-              }`}
+                }`}
             >
               ಕನ್ನಡ (Kannada)
             </button>

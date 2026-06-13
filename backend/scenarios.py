@@ -121,30 +121,64 @@ SCENARIOS = {
                     "A": {
                         "text": "Do not show up for the hearing out of fear.",
                         "score_delta": -20,
-                        "next_node": "end",
+                        "next_node": "5",
                         "fallback_citation": "Section 15, Payment of Wages Act, 1936",
                         "fallback_explanation": "Failing to appear will result in the case being dismissed or decided ex-parte (in favor of the employer). Always show up, even without a lawyer."
                     },
                     "B": {
                         "text": "Contact the District Legal Services Authority (DLSA) for free representation.",
                         "score_delta": 20,
-                        "next_node": "end",
+                        "next_node": "5",
                         "fallback_citation": "Section 12, Legal Services Authorities Act, 1987",
                         "fallback_explanation": "Perfect! Under Section 12 of the LSA Act, every industrial worker is entitled to free legal services from the state, regardless of their income level."
                     },
                     "C": {
                         "text": "Take a high-interest local loan to hire a private attorney.",
                         "score_delta": -10,
-                        "next_node": "end",
+                        "next_node": "5",
                         "fallback_citation": "Section 15, Payment of Wages Act, 1936",
                         "fallback_explanation": "Taking on debt is unnecessary because legal aid is a statutory right for industrial laborers in India, and the Labour Commission is designed to be accessible to self-represented workers."
                     },
                     "D": {
                         "text": "Represent yourself and present your bank statements and attendance registers.",
                         "score_delta": 10,
-                        "next_node": "end",
+                        "next_node": "5",
                         "fallback_citation": "Section 15, Payment of Wages Act, 1936",
                         "fallback_explanation": "Representing yourself is fully permitted, and presenting physical evidence like bank statements proving non-payment is highly effective in proving your case."
+                    }
+                }
+            },
+            "5": {
+                "id": "5",
+                "story": "Resolution. The Labour Commissioner rules in your favor, ordering the employer to pay your full wages plus ₹50,000 in compensation. However, the manager tells you he will delay the payment by appealing the decision.",
+                "choices": {
+                    "A": {
+                        "text": "File an execution application in the Labour Court to enforce the order.",
+                        "score_delta": 20,
+                        "next_node": "end",
+                        "fallback_citation": "Section 17, Payment of Wages Act, 1936",
+                        "fallback_explanation": "Correct! If the employer refuses to comply with the order, you can file an execution application to recover the money as land revenue arrears or via attachment."
+                    },
+                    "B": {
+                        "text": "Sit outside the factory on a hunger strike.",
+                        "score_delta": 5,
+                        "next_node": "end",
+                        "fallback_citation": "Section 15, Payment of Wages Act, 1936",
+                        "fallback_explanation": "Protesting can raise social pressure but has no direct legal force to release the money ordered."
+                    },
+                    "C": {
+                        "text": "Physically block the manager's car until he signs the cheque.",
+                        "score_delta": -20,
+                        "next_node": "end",
+                        "fallback_citation": "Section 341, Indian Penal Code / BNS",
+                        "fallback_explanation": "Illegal! Wrongful restraint is a criminal offense under the BNS/IPC. Doing this allows the employer to file criminal charges against you."
+                    },
+                    "D": {
+                        "text": "Pay a fee to a collections agency to retrieve the cash.",
+                        "score_delta": 0,
+                        "next_node": "end",
+                        "fallback_citation": "Section 15, Payment of Wages Act, 1936",
+                        "fallback_explanation": "Using private collections agencies has no statutory standing under labor laws and can lead to illegal extortion charges."
                     }
                 }
             }
@@ -268,30 +302,64 @@ SCENARIOS = {
                     "A": {
                         "text": "File the case in the National Consumer Disputes Redressal Commission.",
                         "score_delta": -5,
-                        "next_node": "end",
+                        "next_node": "5",
                         "fallback_citation": "Section 58, Consumer Protection Act, 2019",
                         "fallback_explanation": "Incorrect. The National Commission only handles cases exceeding ₹10 Crore under the 2019 Act (recently revised to ₹2 Crore). Your small claim will be dismissed on jurisdictional grounds."
                     },
                     "B": {
                         "text": "File the case in the District Consumer Commission.",
                         "score_delta": 20,
-                        "next_node": "end",
+                        "next_node": "5",
                         "fallback_citation": "Section 34, Consumer Protection Act, 2019",
                         "fallback_explanation": "Correct! The District Commission has jurisdiction over complaints where the value of goods or services paid does not exceed ₹50 Lakhs. You can file this online yourself via e-Daakhil."
                     },
                     "C": {
                         "text": "File the case in the State Consumer Commission.",
                         "score_delta": 5,
-                        "next_node": "end",
+                        "next_node": "5",
                         "fallback_citation": "Section 47, Consumer Protection Act, 2019",
                         "fallback_explanation": "Incorrect. The State Commission handles cases between ₹50 Lakhs and ₹2 Crore. It only hears appeals for smaller values, so you must start in the District Commission."
                     },
                     "D": {
                         "text": "File a petition directly in the Supreme Court of India.",
                         "score_delta": -15,
-                        "next_node": "end",
+                        "next_node": "5",
                         "fallback_citation": "Consumer Protection Act, 2019",
                         "fallback_explanation": "Incorrect. You must follow the statutory hierarchy. The Supreme Court will not entertain a basic defective product complaint directly, and will dismiss it with costs."
+                    }
+                }
+            },
+            "5": {
+                "id": "5",
+                "story": "Resolution. The District Consumer Commission orders the online seller to refund your ₹45,000, pay ₹10,000 as compensation for mental harassment, and ₹5,000 as litigation costs. The seller ignores the order.",
+                "choices": {
+                    "A": {
+                        "text": "File an execution application under Section 72 of the Consumer Protection Act, 2019.",
+                        "score_delta": 20,
+                        "next_node": "end",
+                        "fallback_citation": "Section 72, Consumer Protection Act, 2019",
+                        "fallback_explanation": "Correct! Section 72 empowers the Commission to punish non-compliance with imprisonment up to 3 years or a fine up to ₹1 Lakh, which quickly forces compliance."
+                    },
+                    "B": {
+                        "text": "Write a public review calling the CEO a thief and liar.",
+                        "score_delta": -15,
+                        "next_node": "end",
+                        "fallback_citation": "Section 499, IPC / BNS",
+                        "fallback_explanation": "Defamatory terms like 'thief' can trigger civil or criminal defamation suits. Defamation threats are highly disruptive to consumer recovery."
+                    },
+                    "C": {
+                        "text": "File another fresh complaint about the non-payment.",
+                        "score_delta": 5,
+                        "next_node": "end",
+                        "fallback_citation": "Section 72, Consumer Protection Act, 2019",
+                        "fallback_explanation": "Filing a new complaint is redundant. You must execute the order you already won rather than starting the process over."
+                    },
+                    "D": {
+                        "text": "Wait for the company nodal officers to contact you.",
+                        "score_delta": 0,
+                        "next_node": "end",
+                        "fallback_citation": "Section 72, Consumer Protection Act, 2019",
+                        "fallback_explanation": "Waiting without initiating execution means the order stays unfulfilled indefinitely."
                     }
                 }
             }
@@ -415,30 +483,64 @@ SCENARIOS = {
                     "A": {
                         "text": "Demand he be locked up in an adult prison with hardened criminals.",
                         "score_delta": -5,
-                        "next_node": "end",
+                        "next_node": "5",
                         "fallback_citation": "Section 15, Juvenile Justice Act, 2015",
                         "fallback_explanation": "Under the Juvenile Justice Act, minors under 18 cannot be kept in regular adult jails. They are processed through a Juvenile Justice Board and sent to Observation Homes to prioritize rehabilitation."
                     },
                     "B": {
                         "text": "Proceed with the case in front of the Juvenile Justice Board.",
                         "score_delta": 20,
-                        "next_node": "end",
+                        "next_node": "5",
                         "fallback_citation": "Section 15, Juvenile Justice Act, 2015",
                         "fallback_explanation": "Correct! As a 17-year-old, he will be tried by the Juvenile Justice Board. He can face reformative sentences, community service, or detention in a special home for up to 3 years."
                     },
                     "C": {
                         "text": "Gather friends to beat him up or threaten him at college.",
                         "score_delta": -20,
-                        "next_node": "end",
+                        "next_node": "5",
                         "fallback_citation": "Indian Penal Code / BNS",
                         "fallback_explanation": "Extremely risky and illegal. Assaulting or threatening the minor makes you a perpetrator of violence, and the offender's family can file counter-assault charges against you."
                     },
                     "D": {
                         "text": "File a civil lawsuit for monetary compensation against his parents.",
                         "score_delta": 10,
-                        "next_node": "end",
+                        "next_node": "5",
                         "fallback_citation": "Law of Torts",
                         "fallback_explanation": "You can file a civil suit for damages/defamation against the minor represented by his guardians. While legal, this takes years in civil courts compared to quick reformative action under the JJ Act."
+                    }
+                }
+            },
+            "5": {
+                "id": "5",
+                "story": "Resolution. The Juvenile Justice Board places the classmate under probation for 1 year and orders him and his parents to delete all digital materials and write a formal apology. However, you notice someone has re-uploaded the morphed photos on another profile.",
+                "choices": {
+                    "A": {
+                        "text": "Submit a takedown request to Instagram's grievance officer under IT Rules 2021.",
+                        "score_delta": 20,
+                        "next_node": "end",
+                        "fallback_citation": "Rule 3(2)(b), IT Rules, 2021",
+                        "fallback_explanation": "Correct! Under Rule 3(2)(b) of the IT Rules, social media platforms are legally mandated to remove non-consensual sexual/morphed content within 24 hours of receiving a complaint."
+                    },
+                    "B": {
+                        "text": "Re-share the photos yourself to warn others about the leak.",
+                        "score_delta": -20,
+                        "next_node": "end",
+                        "fallback_citation": "Section 67, Information Technology Act, 2000",
+                        "fallback_explanation": "Extremely illegal. Transmitting or publishing sexually explicit content, even for warning purposes, is a punishable offense under Section 67."
+                    },
+                    "C": {
+                        "text": "Try to find out who the new anonymous poster is on your own.",
+                        "score_delta": 5,
+                        "next_node": "end",
+                        "fallback_citation": "Information Technology Act, 2000",
+                        "fallback_explanation": "Tracking anonymous accounts without police cyber tools is extremely difficult and slows down the removal of the images."
+                    },
+                    "D": {
+                        "text": "Message the poster begging them to delete it.",
+                        "score_delta": 0,
+                        "next_node": "end",
+                        "fallback_citation": "Information Technology Act, 2000",
+                        "fallback_explanation": "Begging the poster has no legal backing and is rarely effective against malicious cyber harassers."
                     }
                 }
             }

@@ -1,13 +1,21 @@
 """
-Gemini prompt + response generation.
+Gemini prompt + response generation using the new google-genai SDK.
 """
 
-import google.generativeai as genai
+import google.genai as genai
 from config import settings
 
-# Initialize Gemini API
-if settings.GEMINI_API_KEY:
-    genai.configure(api_key=settings.GEMINI_API_KEY)
+# Initialize the Gemini client once
+_client = None
+
+def _get_client():
+    global _client
+    if _client is None:
+        if not settings.GEMINI_API_KEY:
+            raise ValueError("GEMINI_API_KEY is not set.")
+        _client = genai.Client(api_key=settings.GEMINI_API_KEY)
+    return _client
+
 
 SYSTEM_PROMPT = """
 You are LexAI, an Indian legal aid assistant helping citizens understand their rights for free.
@@ -29,20 +37,22 @@ Before answering:
 
 
 def generate_response(
-    query: str, 
-    chunks: list[dict], 
+    query: str,
+    chunks: list[dict],
     history: list = None,
     image_base64: str = None,
     image_mime_type: str = None,
-    detected_language: str = "en"
+    detected_language: str = "en",
 ) -> str:
     """
-    Generate response using Gemini 2.0 Flash based on retrieved chunks, chat history, detected language, and optional image.
+    Generate a legal-aid response using Gemini 2.5 Flash.
+    Uses retrieved context, optional chat history, detected language, and an optional image.
     """
-    if not settings.GEMINI_API_KEY:
-        raise ValueError("GEMINI_API_KEY is not set.")
-        
-    # Format retrieved context
+    client = _get_client()
+
+    # ------------------------------------------------------------------
+    # Build context string from retrieved chunks
+    # ------------------------------------------------------------------
     context_str = ""
     if chunks:
         for idx, c in enumerate(chunks, start=1):
@@ -54,49 +64,57 @@ def generate_response(
             context_str += f"Content: {c.get('content')}\n"
     else:
         context_str = "No verified legal documents retrieved for this query."
-        
-    # Format prompt
+
+    # ------------------------------------------------------------------
+    # Build the full prompt
+    # ------------------------------------------------------------------
     prompt = f"System Instructions:\n{SYSTEM_PROMPT}\n"
     prompt += f"detected_language={detected_language}\n\n"
-    
+
     if history:
         prompt += "Chat History:\n"
         for msg in history:
-            role_str = getattr(msg, "role", None) or (msg.get("role") if isinstance(msg, dict) else "user")
-            content_str_msg = getattr(msg, "content", None) or (msg.get("content") if isinstance(msg, dict) else "")
+            role_str = getattr(msg, "role", None) or (
+                msg.get("role") if isinstance(msg, dict) else "user"
+            )
+            content_str_msg = getattr(msg, "content", None) or (
+                msg.get("content") if isinstance(msg, dict) else ""
+            )
             role = "User" if role_str == "user" else "Assistant"
             prompt += f"{role}: {content_str_msg}\n"
         prompt += "\n"
-        
+
     prompt += f"Retrieved Context:\n{context_str}\n\n"
     prompt += f"User Query: {query}\n"
     if image_base64:
-        prompt += "Note: An image of a document or notice was provided. Read the image carefully to understand the context.\n"
+        prompt += (
+            "Note: An image of a document or notice was provided. "
+            "Read the image carefully to understand the context.\n"
+        )
     prompt += "Answer:"
-    
-    # Prepare list of contents for the model
+
+    # ------------------------------------------------------------------
+    # Build contents list (text + optional image)
+    # ------------------------------------------------------------------
     contents = [prompt]
-    
-    # Parse image if provided
+
     if image_base64 and image_mime_type:
         import base64
         try:
-            # Strip off prefix if present (e.g. "data:image/png;base64,")
-            if "," in image_base64:
-                raw_base64 = image_base64.split(",")[1]
-            else:
-                raw_base64 = image_base64
-            
-            image_data = base64.b64decode(raw_base64)
-            contents.append({
-                "mime_type": image_mime_type,
-                "data": image_data
-            })
+            raw = image_base64.split(",")[1] if "," in image_base64 else image_base64
+            image_bytes = base64.b64decode(raw)
+            contents.append(
+                genai.types.Part.from_bytes(data=image_bytes, mime_type=image_mime_type)
+            )
         except Exception as e:
-            print(f"Error decoding image base64: {e}")
-            
-    # Generate content using gemini-2.0-flash
-    model = genai.GenerativeModel("gemini-2.0-flash")
-    response = model.generate_content(contents)
-    
+            print(f"[llm] Error decoding image: {e}")
+
+    # ------------------------------------------------------------------
+    # Call Gemini 1.5 Flash (gemini-flash-latest)
+    # ------------------------------------------------------------------
+    response = client.models.generate_content(
+        model="gemini-flash-latest",
+        contents=contents,
+    )
+
     return response.text

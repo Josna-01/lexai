@@ -35,12 +35,11 @@ class PGVectorRetriever:
             return []
             
         try:
-            # 1. Generate query embedding using Gemini
-            # Task type "retrieval_query" is optimized for search queries
             result = genai.embed_content(
-                model="models/text-embedding-004",
+                model="models/gemini-embedding-001",
                 content=query,
-                task_type="retrieval_query"
+                task_type="retrieval_query",
+                output_dimensionality=768
             )
             query_embedding = result["embedding"]
 
