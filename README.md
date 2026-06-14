@@ -27,7 +27,7 @@ LexAI bridges the gap between Indian citizens and the law using **AI-powered leg
 > Over **50 crore (500M+) people** in India face legal disputes or rights violations every year.
 > Fewer than **10%** can afford legal representation.
 
-The rest — daily wage workers, online shoppers, domestic helpers, college students — are left vulnerable because:
+The rest - daily wage workers, online shoppers, domestic helpers, college students — are left vulnerable because:
 
 - 🔤 Legal language is written in complex, inaccessible English
 - 🌐 Citizens speak Hindi, Kannada, and dozens of regional languages
@@ -99,7 +99,7 @@ Stage 1: Discovery → Stage 2: Complication → Stage 3: Escalation → Stage 4
 
 ### 3. 🔌 LexAI MCP Server (VS Code + GitHub Copilot)
 
-LexAI doesn't just use GitHub Copilot to write code — **it becomes a Copilot capability**.
+LexAI doesn't just use GitHub Copilot to write code - **it becomes a Copilot capability**.
 
 The `FastMCP`-based server exposes LexAI's full legal intelligence pipeline inside VS Code:
 
