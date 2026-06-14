@@ -209,14 +209,14 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({ messages, isLoading, lan
             </div>
 
             <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
-              <div className="p-4.5 rounded-2xl bg-slate-900/40 border border-slate-800/60 text-left text-xs leading-relaxed hover:border-[#a855f7]/30 hover:bg-slate-900/60 hover:shadow-[0_4px_25px_rgba(168,85,247,0.05)] transition-all duration-300 cursor-pointer"
+              <div className="p-5 rounded-2xl bg-slate-900/40 border border-slate-800/60 text-left text-sm leading-relaxed hover:border-[#a855f7]/30 hover:bg-slate-900/60 hover:shadow-[0_4px_25px_rgba(168,85,247,0.05)] transition-all duration-300 cursor-pointer"
                    onClick={() => setInputText("I bought a mobile phone from an online seller but they sent a fake model and are refusing a refund.")}>
-                <span className="font-bold text-[#a855f7] block mb-1">Example (Consumer Rights):</span>
+                <span className="font-bold text-[#a855f7] block mb-2">Example (Consumer Rights):</span>
                 "I bought a mobile phone from an online seller but they sent a fake model and are refusing a refund."
               </div>
-              <div className="p-4.5 rounded-2xl bg-slate-900/40 border border-slate-800/60 text-left text-xs leading-relaxed hover:border-[#a855f7]/30 hover:bg-slate-900/60 hover:shadow-[0_4px_25px_rgba(168,85,247,0.05)] transition-all duration-300 cursor-pointer"
+              <div className="p-5 rounded-2xl bg-slate-900/40 border border-slate-800/60 text-left text-sm leading-relaxed hover:border-[#a855f7]/30 hover:bg-slate-900/60 hover:shadow-[0_4px_25px_rgba(168,85,247,0.05)] transition-all duration-300 cursor-pointer"
                    onClick={() => setInputText("ನನ್ನ ಮಾಲೀಕರು ಕಳೆದ ಎರಡು ತಿಂಗಳಿಂದ ಸಂಬಳ ಕೊಟ್ಟಿಲ್ಲ, ನಾನು ಏನು ಮಾಡಬೇಕು?")}>
-                <span className="font-bold text-[#a855f7] block mb-1">Example (Labor Rights):</span>
+                <span className="font-bold text-[#a855f7] block mb-2">Example (Labor Rights):</span>
                 "ನನ್ನ ಮಾಲೀಕರು ಕಳೆದ ಎರಡು ತಿಂಗಳಿಂದ ಸಂಬಳ ಕೊಟ್ಟಿಲ್ಲ, ನಾನು ಏನು ಮಾಡಬೇಕು? (My employer hasn't paid salary)"
               </div>
             </div>

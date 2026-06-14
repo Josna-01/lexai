@@ -10,6 +10,43 @@ from llm import generate_response
 from config import settings
 from language import detect_language
 from query_normalizer import normalize_query
+import time
+import logging
+import json
+
+def call_gemini_model(prompt: str, max_retries: int = 2):
+    """Call Gemini model with retries and exponential backoff."""
+    for attempt in range(max_retries + 1):
+        try:
+            import google.generativeai as genai
+            genai.configure(api_key=settings.GEMINI_API_KEY)
+            model = genai.GenerativeModel("gemini-2.5-flash")
+            response = model.generate_content(prompt)
+            return response.text.strip()
+        except Exception as e:
+            if attempt < max_retries:
+                backoff = 0.5 * (2 ** attempt)
+                logging.warning(f"Gemini call failed (attempt {attempt+1}/{max_retries+1}): {e}. Retrying in {backoff}s.")
+                time.sleep(backoff)
+            else:
+                logging.error(f"Gemini call failed after {max_retries+1} attempts: {e}")
+                raise
+
+def safe_parse_model_response(response_text: str, default: dict):
+    """Clean markdown fences and parse JSON, fallback to default on error."""
+    try:
+        txt = response_text
+        if txt.startswith("```"):
+            lines = txt.split("\n")
+            if lines[0].startswith("```"):
+                lines = lines[1:]
+            if lines[-1].startswith("```"):
+                lines = lines[:-1]
+            txt = "\n".join(lines).strip()
+        return json.loads(txt)
+    except Exception as e:
+        logging.error(f"Failed to parse model response: {e}. Using default.")
+        return default
 
 app = FastAPI(
     title="LexAI API",
@@ -58,14 +95,34 @@ async def chat_endpoint(request: ChatRequest):
         )
         
         # 4. Generate LLM response grounded in the retrieved chunks
-        answer = generate_response(
-            query=request.query, 
-            chunks=chunks, 
-            history=request.history,
-            image_base64=request.image_base64,
-            image_mime_type=request.image_mime_type,
-            detected_language=language
-        )
+        try:
+            answer = generate_response(
+                query=request.query, 
+                chunks=chunks, 
+                history=request.history,
+                image_base64=request.image_base64,
+                image_mime_type=request.image_mime_type,
+                detected_language=language
+            )
+        except Exception as e:
+            logging.error(f"LLM generation failed in chat: {e}. Falling back to retrieved chunks summary.")
+            if language == "hi":
+                answer = "नमस्ते! मैं अभी अपने AI सर्वर से नहीं जुड़ पा रहा हूँ। आपके प्रश्न से संबंधित कुछ मुख्य कानून नीचे दिए गए हैं:\n\n"
+            elif language == "kn":
+                answer = "ನಮಸ್ಕಾರ! ನನ್ನ AI ಸರ್ವರ್‌ನೊಂದಿಗೆ ಸಂಪರ್ಕ ಸಾಧಿಸಲು ನನಗೆ ಸಾಧ್ಯವಾಗುತ್ತಿಲ್ಲ. ನಿಮ್ಮ ಪ್ರಶ್ನೆಗೆ ಸಂಬಂಧಿಸಿದ ಕೆಲವು ಪ್ರಮುಖ ಕಾನೂನುಗಳು ಈ ಕೆಳಗಿನಂತಿವೆ:\n\n"
+            else:
+                answer = "Hello! I am currently unable to reach my AI processor. Here are the relevant legal provisions retrieved for your query:\n\n"
+            
+            for idx, c in enumerate(chunks, start=1):
+                section_val = c.get('section', '')
+                if section_val:
+                    if str(section_val).strip().lower().startswith("section"):
+                        sec_str = f" - {section_val}"
+                    else:
+                        sec_str = f" - Section {section_val}"
+                else:
+                    sec_str = ""
+                answer += f"{idx}. **{c.get('act')}**{sec_str}: {c.get('content')[:200]}...\n\n"
 
         
         # 5. Extract unique citations from retrieved chunks
@@ -162,9 +219,7 @@ async def simulation_step(request: SimulationStepRequest):
 
     if settings.GEMINI_API_KEY:
         try:
-            # Configure genai (redundant but safe)
-            genai.configure(api_key=settings.GEMINI_API_KEY)
-            model = genai.GenerativeModel("gemini-flash-latest")
+            pass
 
             context_str = ""
             for idx, c in enumerate(chunks, start=1):
@@ -196,20 +251,12 @@ Please evaluate the user's choice and return a JSON object with:
 
 Format your response as a valid JSON object ONLY. Do not include markdown formatting or code block markers.
 """
-            response = model.generate_content(prompt)
-            response_text = response.text.strip()
-            
-            # Clean up markdown code blocks if any
-            if response_text.startswith("```"):
-                # Strip the first line (e.g. ```json) and the last line (```)
-                lines = response_text.split("\n")
-                if lines[0].startswith("```"):
-                    lines = lines[1:]
-                if lines[-1].startswith("```"):
-                    lines = lines[:-1]
-                response_text = "\n".join(lines).strip()
-
-            eval_data = json.loads(response_text)
+            response_text = call_gemini_model(prompt)
+            eval_data = safe_parse_model_response(response_text, {
+                "grade": default_grade,
+                "explanation": fallback_explanation,
+                "citation": fallback_citation
+            })
             
             # Extract and validate fields
             if eval_data.get("grade") in ["correct", "risky", "illegal"]:
@@ -305,8 +352,6 @@ async def generate_custom_scenario(request: CustomSituationRequest):
         return default_response
 
     try:
-        genai.configure(api_key=settings.GEMINI_API_KEY)
-        model = genai.GenerativeModel("gemini-flash-latest")
 
         prompt = f"""
 You are an expert Indian Legal Aid educator designing an interactive Choose-Your-Own-Adventure scenario to teach a citizen about their rights.
@@ -384,19 +429,12 @@ Format your response as a valid JSON object ONLY matching this schema:
 }}
 Do not include markdown code block markers or formatting. Return raw JSON string only.
 """
-        response = model.generate_content(prompt)
-        response_text = response.text.strip()
-
-        # Clean markdown code blocks
-        if response_text.startswith("```"):
-            lines = response_text.split("\n")
-            if lines[0].startswith("```"):
-                lines = lines[1:]
-            if lines[-1].startswith("```"):
-                lines = lines[:-1]
-            response_text = "\n".join(lines).strip()
-
-        data = json.loads(response_text)
+        response_text = call_gemini_model(prompt)
+        data = safe_parse_model_response(response_text, {
+            "title": default_response.title,
+            "character": default_response.character,
+            "nodes": default_response.nodes
+        })
         return CustomScenarioResponse(
             title=data.get("title", default_response.title),
             character=data.get("character", default_response.character),
@@ -442,8 +480,7 @@ async def evaluate_custom_choice(request: CustomEvaluationRequest):
         )
 
     try:
-        genai.configure(api_key=settings.GEMINI_API_KEY)
-        model = genai.GenerativeModel("gemini-flash-latest")
+        pass
 
         prompt = f"""
 You are an expert Indian Legal Aid evaluator grading a choice in a custom scenario.
@@ -464,20 +501,13 @@ Please evaluate the chosen action and return a JSON object with:
 
 Format your response as a valid JSON object ONLY. Do not include markdown formatting or code block markers.
 """
-        response = model.generate_content(prompt)
-        response_text = response.text.strip()
-
-        # Clean markdown code blocks
-        if response_text.startswith("```"):
-            lines = response_text.split("\n")
-            if lines[0].startswith("```"):
-                lines = lines[1:]
-            if lines[-1].startswith("```"):
-                lines = lines[:-1]
-            response_text = "\n".join(lines).strip()
-
-        eval_data = json.loads(response_text)
-        grade = eval_data.get("grade", "risky")
+        response_text = call_gemini_model(prompt)
+        eval_data = safe_parse_model_response(response_text, {
+            "grade": grade,
+            "explanation": explanation,
+            "citation": citation
+        })
+        grade = eval_data.get("grade", grade)
         explanation = eval_data.get("explanation", explanation)
         citation = eval_data.get("citation", citation)
 
@@ -498,5 +528,35 @@ Format your response as a valid JSON object ONLY. Do not include markdown format
         score_delta=score_delta,
         next_node="end"
     )
+
+
+@app.get("/api/simulation/categories")
+def get_simulation_categories():
+    """
+    Returns the list of available categories for the simulator.
+    """
+    from simulator_scenarios import CATEGORY_SCENARIOS
+    return list(CATEGORY_SCENARIOS.keys())
+
+
+@app.get("/api/simulation/category-scenario")
+def get_category_scenario(category: str):
+    """
+    Returns a random scenario from the pool for the chosen category.
+    """
+    from simulator_scenarios import get_random_scenario
+    try:
+        sc = get_random_scenario(category)
+    except KeyError:
+        raise HTTPException(status_code=404, detail=f"Category '{category}' not found")
+
+    return {
+        "id": f"category_{category.lower().replace(' ', '_')}",
+        "title": sc["title"],
+        "act": sc.get("act", "Indian Legislation"),
+        "character": sc.get("character", "Citizen"),
+        "isCategory": True,
+        "nodes": sc.get("nodes", {})
+    }
 
 

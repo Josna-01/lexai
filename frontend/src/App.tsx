@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { API_BASE } from './api';
 import { ChatWindow } from './components/ChatWindow';
 import { ScenarioSimulator } from './components/ScenarioSimulator';
 import { Message } from './components/MessageBubble';
 import BlurText from './components/BlurText';
 import DarkVeil from './components/DarkVeil';
-import logo from './assets/logo.png';
+import logo from './assets/logo_final.png';
 import {
   Scale, Globe, BookOpen, Layers,
   Settings as SettingsIcon, X, MessageSquare, Mic, Image as ImageIcon,
@@ -116,7 +117,7 @@ const App: React.FC = () => {
 
   // Load backend health check to identify active retriever on launch
   useEffect(() => {
-    fetch('/api/health')
+    fetch(`${API_BASE}/api/health`)
       .then(res => res.json())
       .then(data => {
         if (data && data.retriever_type) {
@@ -153,7 +154,7 @@ const App: React.FC = () => {
         image_mime_type: imageMime || null
       };
 
-      const response = await fetch('/api/chat', {
+      const response = await fetch(`${API_BASE}/api/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -239,7 +240,7 @@ const App: React.FC = () => {
             onClick={() => navigateTo('/')}
             className="flex items-center cursor-pointer hover:opacity-90 transition-opacity"
           >
-            <img src={logo} alt="LexAI Logo" className="h-9 w-auto object-contain" />
+            <img src={logo} alt="LexAI Logo" className="h-16 w-auto object-contain" />
           </button>
         </div>
 
@@ -293,7 +294,7 @@ const App: React.FC = () => {
           {/* PAGE 1 — HERO LANDING (100vh) */}
           <section
             id="page1"
-            className="relative h-screen flex flex-col justify-center items-center z-10 px-6 bg-[#050816]/5 pb-[7vh] transition-all duration-700"
+            className="relative h-screen flex flex-col justify-center items-center z-10 px-6 bg-transparent pb-[7vh] transition-all duration-700"
           >
             {/* Hero Central Text */}
             <div className="flex flex-col items-center text-center max-w-4xl px-4">
@@ -345,16 +346,16 @@ const App: React.FC = () => {
             <div className="max-w-5xl w-full mx-auto space-y-12">
 
               <div className="text-center space-y-3">
-                <span className="text-xs tracking-widest font-black uppercase text-[#c084fc] glow-text-gold">Interactive Stepper</span>
+                <span className="text-xs tracking-widest font-black uppercase text-[#c084fc] glow-text-purple">Interactive Stepper</span>
                 <h2 className="text-4xl font-black uppercase tracking-tight text-white font-display">How LexAI Empowers You</h2>
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
 
                 {/* Left Column - Stepper Line (Span 5) */}
-                <div className="lg:col-span-5 flex flex-row lg:flex-col justify-between lg:justify-start gap-6 lg:gap-10 relative pl-5">
+                <div className="lg:col-span-5 flex flex-row lg:flex-col justify-between lg:justify-start gap-6 lg:gap-10 relative">
                   {/* Vertical line behind the steps on desktop */}
-                  <div className="hidden lg:block absolute left-[22px] top-6 bottom-6 w-0.5 bg-white/5 z-0">
+                  <div className="hidden lg:block absolute left-6 top-0 bottom-0 w-[2px] bg-white/5 z-0 -translate-x-1/2">
                     <div 
                       className="w-full bg-[#a855f7] shadow-[0_0_10px_#a855f7] transition-all duration-700 ease-in-out animate-pulse"
                       style={{
@@ -369,7 +370,7 @@ const App: React.FC = () => {
                     onClick={() => handleStepClick(1)}
                     className="flex items-center gap-5 text-left group cursor-pointer transition-all z-10 relative"
                   >
-                    <div className={`w-11 h-11 rounded-full border-2 flex items-center justify-center font-bold font-mono text-sm transition-all shrink-0 ${activeStep >= 1 ? 'bg-[#a855f7] border-[#c084fc] text-white shadow-[0_0_20px_rgba(168,85,247,0.5)] opacity-100' : 'bg-slate-900 border-slate-700 text-slate-400 opacity-40 group-hover:opacity-75'}`}>
+                    <div className={`w-12 h-12 rounded-full border-2 flex items-center justify-center font-bold font-mono text-sm transition-all shrink-0 ${activeStep >= 1 ? 'bg-[#a855f7] border-[#c084fc] text-white shadow-[0_0_20px_rgba(168,85,247,0.5)] opacity-100' : 'bg-slate-900 border-slate-700 text-slate-400 opacity-40 group-hover:opacity-75'}`}>
                       1
                     </div>
                     <div className={`hidden lg:block transition-all ${activeStep === 1 ? 'opacity-100' : 'opacity-40 group-hover:opacity-75'}`}>
@@ -383,7 +384,7 @@ const App: React.FC = () => {
                     onClick={() => handleStepClick(2)}
                     className="flex items-center gap-5 text-left group cursor-pointer transition-all z-10 relative"
                   >
-                    <div className={`w-11 h-11 rounded-full border-2 flex items-center justify-center font-bold font-mono text-sm transition-all shrink-0 ${activeStep >= 2 ? 'bg-[#a855f7] border-[#c084fc] text-white shadow-[0_0_20px_rgba(168,85,247,0.5)] opacity-100' : 'bg-slate-900 border-slate-700 text-slate-400 opacity-40 group-hover:opacity-75'}`}>
+                    <div className={`w-12 h-12 rounded-full border-2 flex items-center justify-center font-bold font-mono text-sm transition-all shrink-0 ${activeStep >= 2 ? 'bg-[#a855f7] border-[#c084fc] text-white shadow-[0_0_20px_rgba(168,85,247,0.5)] opacity-100' : 'bg-slate-900 border-slate-700 text-slate-400 opacity-40 group-hover:opacity-75'}`}>
                       2
                     </div>
                     <div className={`hidden lg:block transition-all ${activeStep === 2 ? 'opacity-100' : 'opacity-40 group-hover:opacity-75'}`}>
@@ -397,7 +398,7 @@ const App: React.FC = () => {
                     onClick={() => handleStepClick(3)}
                     className="flex items-center gap-5 text-left group cursor-pointer transition-all z-10 relative"
                   >
-                    <div className={`w-11 h-11 rounded-full border-2 flex items-center justify-center font-bold font-mono text-sm transition-all shrink-0 ${activeStep >= 3 ? 'bg-[#a855f7] border-[#c084fc] text-white shadow-[0_0_20px_rgba(168,85,247,0.5)] opacity-100' : 'bg-slate-900 border-slate-700 text-slate-400 opacity-40 group-hover:opacity-75'}`}>
+                    <div className={`w-12 h-12 rounded-full border-2 flex items-center justify-center font-bold font-mono text-sm transition-all shrink-0 ${activeStep >= 3 ? 'bg-[#a855f7] border-[#c084fc] text-white shadow-[0_0_20px_rgba(168,85,247,0.5)] opacity-100' : 'bg-slate-900 border-slate-700 text-slate-400 opacity-40 group-hover:opacity-75'}`}>
                       3
                     </div>
                     <div className={`hidden lg:block transition-all ${activeStep === 3 ? 'opacity-100' : 'opacity-40 group-hover:opacity-75'}`}>
@@ -411,7 +412,7 @@ const App: React.FC = () => {
                     onClick={() => handleStepClick(4)}
                     className="flex items-center gap-5 text-left group cursor-pointer transition-all z-10 relative"
                   >
-                    <div className={`w-11 h-11 rounded-full border-2 flex items-center justify-center font-bold font-mono text-sm transition-all shrink-0 ${activeStep >= 4 ? 'bg-[#a855f7] border-[#c084fc] text-white shadow-[0_0_20px_rgba(168,85,247,0.5)] opacity-100' : 'bg-slate-900 border-slate-700 text-slate-400 opacity-40 group-hover:opacity-75'}`}>
+                    <div className={`w-12 h-12 rounded-full border-2 flex items-center justify-center font-bold font-mono text-sm transition-all shrink-0 ${activeStep >= 4 ? 'bg-[#a855f7] border-[#c084fc] text-white shadow-[0_0_20px_rgba(168,85,247,0.5)] opacity-100' : 'bg-slate-900 border-slate-700 text-slate-400 opacity-40 group-hover:opacity-75'}`}>
                       4
                     </div>
                     <div className={`hidden lg:block transition-all ${activeStep === 4 ? 'opacity-100' : 'opacity-40 group-hover:opacity-75'}`}>
@@ -554,23 +555,23 @@ const App: React.FC = () => {
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 w-full">
                 <div className="p-6 rounded-2xl glass-card-premium space-y-3">
                   <Globe size={22} className="text-[#c084fc]" />
-                  <h5 className="text-sm font-bold text-white">Multilingual</h5>
-                  <p className="text-xs text-slate-400 leading-relaxed">English, Hindi, and Kannada natively supported.</p>
+                  <h5 className="text-lg font-bold text-white">Multilingual</h5>
+                  <p className="text-sm text-slate-400 leading-relaxed">English, Hindi, and Kannada natively supported.</p>
                 </div>
                 <div className="p-6 rounded-2xl glass-card-premium space-y-3">
                   <BookOpen size={22} className="text-[#c084fc]" />
-                  <h5 className="text-sm font-bold text-white">Verified Laws</h5>
-                  <p className="text-xs text-slate-400 leading-relaxed">Replies citation-linked to actual acts and sections.</p>
+                  <h5 className="text-lg font-bold text-white">Verified Laws</h5>
+                  <p className="text-sm text-slate-400 leading-relaxed">Replies citation-linked to actual acts and sections.</p>
                 </div>
                 <div className="p-6 rounded-2xl glass-card-premium space-y-3">
                   <Layers size={22} className="text-purple-400" />
-                  <h5 className="text-sm font-bold text-white">Foundry IQ</h5>
-                  <p className="text-xs text-slate-400 leading-relaxed">Smart cloud-based legal retrieval system.</p>
+                  <h5 className="text-lg font-bold text-white">Foundry IQ</h5>
+                  <p className="text-sm text-slate-400 leading-relaxed">Smart cloud-based legal retrieval system.</p>
                 </div>
                 <div className="p-6 rounded-2xl glass-card-premium space-y-3">
                   <Scale size={22} className="text-[#c084fc]" />
-                  <h5 className="text-sm font-bold text-white">Simulator</h5>
-                  <p className="text-xs text-slate-400 leading-relaxed">Learn rights by simulating actual legal cases.</p>
+                  <h5 className="text-lg font-bold text-white">Simulator</h5>
+                  <p className="text-sm text-slate-400 leading-relaxed">Learn rights by simulating actual legal cases.</p>
                 </div>
               </div>
 
@@ -631,7 +632,7 @@ const App: React.FC = () => {
       {(currentPath === '/chat' || currentPath === '/simulator') && (
         <section
           id="page3"
-          className="relative h-screen flex flex-col justify-between z-10 transition-all duration-700 pt-20 bg-[#050816]/40 backdrop-blur-xl"
+          className="relative h-screen flex flex-col justify-between z-10 transition-all duration-700 pt-20 bg-transparent"
         >
           {/* Content area: scrolls independently */}
           <div className="flex-1 min-h-0 flex flex-col relative w-full pt-4">
@@ -650,7 +651,7 @@ const App: React.FC = () => {
           {/* Brand footer */}
           <footer className="py-2.5 bg-[#050816]/90 border-t border-white/5 text-center shrink-0">
             <p className="text-[10px] text-slate-600 font-medium">
-              LexAI © 2026. Powered by Microsoft Foundry IQ & Supabase Fallback.
+              LexAI © 2026. {import.meta.env.DEV && "Powered by Microsoft Foundry IQ & Supabase Fallback."}
             </p>
           </footer>
         </section>

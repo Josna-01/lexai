@@ -66,7 +66,7 @@ def explain_law_section(act: str, section: str, content: str) -> str:
             return f"Act: {act}\nSection: {section}\nContent: {content}\n\n(Note: Gemini API key is not configured to generate the explanation)"
             
         genai.configure(api_key=settings.GEMINI_API_KEY)
-        model = genai.GenerativeModel("gemini-flash-latest")
+        model = genai.GenerativeModel("gemini-2.5-flash")
         
         prompt = f"""
 You are an expert Indian Legal Aid assistant.

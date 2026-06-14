@@ -1,6 +1,10 @@
-"""
-Environment variables and application configuration using Pydantic Settings.
-"""
+import os
+from dotenv import load_dotenv
+
+# Force loading and overriding environment variables from the project's .env file
+parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+env_path = os.path.join(parent_dir, ".env")
+load_dotenv(dotenv_path=env_path, override=True)
 
 from typing import Optional
 # pyrefly: ignore [missing-import]

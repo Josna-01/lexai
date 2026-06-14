@@ -178,6 +178,10 @@
   color: #ffffff;
 }
 
+.glow-text-purple {
+  color: var(--secondary-purple);
+}
+
 .glow-text-gold {
   color: #ffffff;
 }

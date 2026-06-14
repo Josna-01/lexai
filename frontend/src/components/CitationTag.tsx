@@ -10,9 +10,10 @@ export interface Citation {
 interface CitationTagProps {
   citation: Citation;
   onClick?: () => void;
+  purple?: boolean;
 }
 
-export const CitationTag: React.FC<CitationTagProps> = ({ citation, onClick }) => {
+export const CitationTag: React.FC<CitationTagProps> = ({ citation, onClick, purple }) => {
   const { act, section, year } = citation;
 
   // Create display label
@@ -22,7 +23,11 @@ export const CitationTag: React.FC<CitationTagProps> = ({ citation, onClick }) =
     <button
       onClick={onClick}
       type="button"
-      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#0B1120]/80 text-[#F5C518] border border-[#F5C518]/25 hover:border-[#F5C518]/45 hover:bg-[#F5C518]/5 transition-all duration-300 cursor-pointer shadow-[0_2px_8px_rgba(0,0,0,0.4)] hover:-translate-y-0.5"
+      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#0B1120]/80 transition-all duration-300 cursor-pointer shadow-[0_2px_8px_rgba(0,0,0,0.4)] hover:-translate-y-0.5 ${
+        purple
+          ? 'text-[#a855f7] border border-[#a855f7]/25 hover:border-[#a855f7]/45 hover:bg-[#a855f7]/5'
+          : 'text-[#F5C518] border border-[#F5C518]/25 hover:border-[#F5C518]/45 hover:bg-[#F5C518]/5'
+      }`}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

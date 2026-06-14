@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Citation, CitationTag } from './CitationTag';
+import { Citation } from './CitationTag';
 import { Volume2, VolumeX, Shield, User } from 'lucide-react';
 
 export interface Message {
@@ -38,8 +38,8 @@ const formatMessageContent = (text: string) => {
   return formatted;
 };
 
-export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, language, onCitationClick }) => {
-  const { role, content, citations, image_base64 } = message;
+export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, language }) => {
+  const { role, content, image_base64 } = message;
   const isAssistant = role === 'assistant';
 
   const [isPlaying, setIsPlaying] = useState(false);
@@ -53,6 +53,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, language,
     };
   }, [isPlaying, isAssistant]);
 
+  // Ensure voices are loaded before speaking
   const toggleSpeech = () => {
     if (isPlaying) {
       window.speechSynthesis.cancel();
@@ -68,18 +69,45 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, language,
 
     const utterance = new SpeechSynthesisUtterance(cleanText);
 
-    // Select language locale
+    // Select language locale for speech synthesis
     if (language === 'hi') {
-      utterance.lang = 'hi-IN';
+      utterance.lang = 'hi-IN'; // Hindi (India)
     } else if (language === 'kn') {
-      utterance.lang = 'kn-IN';
+      utterance.lang = 'kn-IN'; // Kannada (India)
     } else {
-      utterance.lang = 'en-IN'; // Indian English helper
+      utterance.lang = 'en-IN'; // Default to English (India)
     }
 
     // Attempt to select correct browser voice
     const voices = window.speechSynthesis.getVoices();
-    const voice = voices.find(v => v.lang.toLowerCase() === utterance.lang.toLowerCase() || v.lang.startsWith(utterance.lang));
+
+    // Prefer a female voice matching the target language
+    let voice = null;
+
+    // Find voices matching the language
+    const langVoices = voices.filter(v => v.lang.toLowerCase().startsWith(utterance.lang.toLowerCase()));
+
+    // Try to pick a female voice from language matches
+    voice = langVoices.find(v => v.name.toLowerCase().includes('female'));
+
+    // If no female voice, fall back to any language‑matching voice
+    if (!voice && langVoices.length > 0) {
+      voice = langVoices[0];
+    }
+
+    // Fallback: try generic Hindi/Kannada voices if still no match
+    if (!voice) {
+      voice = voices.find(v => v.lang.toLowerCase().includes('hi'));
+    }
+    if (!voice) {
+      voice = voices.find(v => v.lang.toLowerCase().includes('kn'));
+    }
+
+    // Final fallback to the first available voice
+    if (!voice && voices.length > 0) {
+      voice = voices[0];
+    }
+
     if (voice) {
       utterance.voice = voice;
     }
@@ -156,19 +184,6 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, language,
 
           </div>
 
-          {/* Citations section */}
-          {isAssistant && citations && citations.length > 0 && (
-            <div className="flex flex-wrap gap-2 mt-1 px-1">
-              <span className="text-[10px] uppercase tracking-widest text-[#94A3B8] font-bold self-center mr-1.5">Sources:</span>
-              {citations.map((cit, idx) => (
-                <CitationTag
-                  key={idx}
-                  citation={cit}
-                  onClick={() => onCitationClick && onCitationClick(cit)}
-                />
-              ))}
-            </div>
-          )}
         </div>
 
       </div>
