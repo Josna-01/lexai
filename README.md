@@ -22,11 +22,22 @@ LexAI bridges the gap between Indian citizens and the law using **AI-powered leg
 
 ---
 
-## 🔗 Live Demo
+## 🔗 Live Demo & Video
 
 👉 **Try LexAI Live**: [https://red-meadow-08a3e820f.7.azurestaticapps.net](https://red-meadow-08a3e820f.7.azurestaticapps.net)
 
+🎥 **Demo Video Walkthrough**: [Watch the 3-Minute Video Demo](https://www.youtube.com/watch?v=your-video-id)
+
 ---
+
+## ⚠️ Important Note for Hackathon Judges
+
+LexAI uses the **Google AI Studio Gemini API Free Tier** for query translation and reasoning. If multiple judges test the dynamic chat assistant or custom simulator simultaneously, you may experience temporary rate-limiting errors (`429: Resource exhausted`).
+
+**If you encounter rate limits:**
+1. **Play the Rights Simulator (Category Mode)**: The simulator scenarios (withheld wages, defective products, cyber harassment) are **fully pre-generated and run entirely locally**. They do not make live AI API calls and will work **100% of the time**.
+2. **Semantic Search Fallback**: If Azure AI Search limits are reached, the system automatically falls back to a **Supabase pgvector** database index to fetch legal chunks.
+3. Try again in 60 seconds once the free tier window resets.
 
 ## 📖 The Problem
 
@@ -124,54 +135,23 @@ Copilot invokes `search_laws` → Azure AI Search → grounded, cited legal answ
 
 ## 🛠️ System Architecture
 
-```mermaid
-graph TD
-    User([👤 User Query / Game Action]) --> Lang[🗣️ Azure AI Language Service]
-    Lang -->|Detect Language hi/kn/en| Pipeline[🔄 Query Normalizer]
-    Pipeline -->|Gemini 2.5 Flash Normalization| Search[🔍 Azure AI Search — Foundry IQ]
-    Search -->|Grounded Legal Chunks| Reasoning[🤖 Gemini 2.5 Flash Reasoning]
-    Reasoning -->|Citations + Native Language| ChatResponse([✅ Native Language Response])
+Our production-ready architecture splits into a Main Query Pipeline and an MCP/Copilot developer extension, built on a secure Azure-backed intelligence layer.
 
-    subgraph "Fallback Layer"
-        Search -.->|If Azure Offline| Supa[🗄️ Supabase pgvector]
-    end
-
-    subgraph "GitHub Copilot in VS Code 🔌"
-        VS[GitHub Copilot Chat] <-->|Model Context Protocol| MCP[LexAI MCP Server]
-        MCP <--> Search
-        MCP <--> Reasoning
-    end
-```
+![LexAI System Architecture Diagram](assets/architecture.png)
 
 ---
 
 ## 💙 Why Microsoft Technologies Matter
 
 ### Azure AI Search — Microsoft Foundry IQ
-> **Prevents hallucination. Grounds every answer in verified Indian law.**
-
-Without Foundry IQ, Gemini guesses. With Foundry IQ, Gemini reads the actual legislation.
-
-```
-Without Foundry IQ:   User question → Gemini → (possibly hallucinated) answer
-With Foundry IQ:      User question → Azure Search → real law sections → Gemini → cited answer
-```
+- **Retrieval-Augmented Generation (RAG)**: Prevents LLM hallucinations by locating exact Act + Section citations before generating answers.
+- **Hybrid Retrieval**: Combines semantic indexing and keyword search to retrieve precise legal subsections.
 
 ### Azure AI Language Service
-> **Production-grade multilingual detection — supporting Devanagari, Kannada script, and code-mixed Indian speech.**
+- **Multilingual Support**: Provides production-grade language detection that successfully handles Devanagari script, Kannada script, and code-mixed Indian speech (Hinglish/Kanglish) where standard open-source libraries fail.
 
-Standard language libraries fail on Hinglish. Azure AI Language handles it correctly.
-
-### GitHub Copilot
-> **Used throughout development AND embedded as an MCP capability.**
-
-- Wrote FastAPI routes, Pydantic schemas, RAG pipeline, simulator game logic, React UI
-- LexAI's MCP server makes Copilot smarter about Indian law — judges in VS Code can query statutes live
-
-### Model Context Protocol (MCP)
-> **LexAI extends Copilot, not just uses it.**
-
-Every other hackathon team *builds with Copilot*. LexAI *becomes a Copilot capability*.
+### GitHub Copilot & Model Context Protocol (MCP)
+- **Ecosystem Extension**: LexAI exposes its legal intelligence using the Model Context Protocol (MCP). Instead of just using Copilot to write code, LexAI extends VS Code and Copilot Chat to understand Indian civic rights natively.
 
 ---
 
@@ -181,11 +161,16 @@ Every other hackathon team *builds with Copilot*. LexAI *becomes a Copilot capab
 
 | Screen | Preview |
 |---|---|
-| 🏠 Home / Landing | ![Home](assets/home.png) |
-| 💬 Legal Chat | ![Chat](assets/chat.png) |
-| 🎮 Rights Simulator | ![Simulator](assets/simulator.png) |
-| 📊 End Dashboard | ![Dashboard](assets/dashboard.png) |
-| 🔌 MCP in VS Code | ![MCP](assets/mcp.png) |
+| 🏠 Home / Landing | ![Home](assets/Home.png) |
+| ℹ️ About Section | ![About](assets/About.png) |
+| 💬 Legal Chat Start | ![Chat Start](assets/chat_start.png) |
+| 💬 Legal Chat Active | ![Chat Active](assets/chat_1.png) |
+| 🧭 Simulator Mode Selection | ![Mode Selection](assets/mode_selection.png) |
+| 🎮 Rights Simulator Start | ![Simulator Start](assets/simulator_start.png) |
+| 🎮 Category Simulator Mode | ![Category Simulator](assets/category_simulator.png) |
+| 🎮 Custom Simulator Mode | ![Custom Simulator](assets/custom%20simulator.png) |
+| 📊 End Dashboard | *Coming Soon* |
+| 🔌 MCP in VS Code | *Coming Soon* |
 
 ---
 
@@ -298,9 +283,9 @@ Open **GitHub Copilot Chat** → ask any Indian legal question → LexAI answers
 
 ## 👤 Team
 
-| Name | Role |
-|------|------|
-| **Amisha Josna D'Souza** | Lead Developer & System Architect |
+| Name | Role | Core Contributions |
+|------|------|---|
+| **Amisha Josna D'Souza** | Developer | End-to-end architecture, FastAPI RAG implementation, Azure integration, MCP Server development, and React dashboard UI. |
 
 ---
 
