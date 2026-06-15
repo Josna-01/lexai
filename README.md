@@ -245,7 +245,7 @@ Open **GitHub Copilot Chat** → ask any Indian legal question → LexAI answers
 | ⚙️ Backend | **Azure App Service** |
 | 🔍 Knowledge Base | **Azure AI Search (Foundry IQ)** |
 | 🗣️ Language Detection | **Azure AI Language Service** |
-| 🤖 LLM | Gemini 2.5 Flash |
+| 🤖 LLM | Gemini 1.5 Flash |
 | 🗄️ Fallback DB | Supabase pgvector |
 
 > 💡 **Current Live Hackathon Deployment**: Frontend runs on **Azure Static Web Apps** and the FastAPI backend runs on **Render.com**.
@@ -272,7 +272,7 @@ Open **GitHub Copilot Chat** → ask any Indian legal question → LexAI answers
 |---|---|
 | Frontend | React 18 + TypeScript + Vite + Tailwind CSS |
 | Backend | Python 3.11 + FastAPI |
-| LLM | Gemini 2.5 Flash |
+| LLM | Gemini 1.5 Flash |
 | Vector Search | **Azure AI Search — Foundry IQ** |
 | Language Detection | **Azure AI Language Service** |
 | MCP | FastMCP (stdio transport) |

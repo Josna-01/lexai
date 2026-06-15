@@ -71,7 +71,7 @@ def generate_response(
     detected_language: str = "en",
 ) -> str:
     """
-    Generate a legal-aid response using Gemini 2.5 Flash.
+    Generate a legal-aid response using Gemini 1.5 Flash.
     Uses retrieved context, optional chat history, detected language, and an optional image.
     """
     client = _get_client()
@@ -136,7 +136,7 @@ def generate_response(
             print(f"[llm] Error decoding image: {e}")
 
     # ------------------------------------------------------------------
-    # Call Gemini 2.5 Flash (gemini-2.5-flash) with retries
+    # Call Gemini 1.5 Flash (gemini-1.5-flash) with retries
     # ------------------------------------------------------------------
     import time
     import logging
@@ -145,7 +145,7 @@ def generate_response(
     for attempt in range(max_retries + 1):
         try:
             response = client.models.generate_content(
-                model="gemini-2.5-flash",
+                model="gemini-1.5-flash",
                 contents=contents,
             )
             return response.text
