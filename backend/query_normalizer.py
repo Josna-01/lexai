@@ -22,7 +22,7 @@ def normalize_query(user_message: str) -> str:
         # Configure genai (redundant but safe)
         genai.configure(api_key=settings.GEMINI_API_KEY)
         
-        model = genai.GenerativeModel("gemini-1.5-flash")
+        model = genai.GenerativeModel("gemini-3.5-flash")
         
         system_instruction = """
 You are a legal query normalizer for Indian users.
