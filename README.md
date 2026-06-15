@@ -286,7 +286,7 @@ Open **GitHub Copilot Chat** → ask any Indian legal question → LexAI answers
 
 | Name | Role | Core Contributions |
 |------|------|---|
-| **Amisha Josna D'Souza** | Lead Developer & System Architect | End-to-end architecture, FastAPI RAG implementation, Azure integration, MCP Server development, and React dashboard UI. |
+| **Amisha Josna Dsouza** | Lead Developer & System Architect | End-to-end architecture, FastAPI RAG implementation, Azure integration, MCP Server development, and React dashboard UI. |
 
 ---
 
