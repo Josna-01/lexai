@@ -26,7 +26,7 @@ LexAI bridges the gap between Indian citizens and the law using **AI-powered leg
 
 👉 **Try LexAI Live**: [https://red-meadow-08a3e820f.7.azurestaticapps.net](https://red-meadow-08a3e820f.7.azurestaticapps.net)
 
-🎥 **Demo Video Walkthrough**: [Watch the 3-Minute Video Demo](https://www.youtube.com/watch?v=your-video-id)
+🎥 **Demo Video Walkthrough**: [Watch the 3-Minute Video Demo](https://youtu.be/YpLU6VvGlj0)
 
 ---
 
