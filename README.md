@@ -22,6 +22,12 @@ LexAI bridges the gap between Indian citizens and the law using **AI-powered leg
 
 ---
 
+## 🔗 Live Demo
+
+👉 **Try LexAI Live**: [https://red-meadow-08a3e820f.7.azurestaticapps.net](https://red-meadow-08a3e820f.7.azurestaticapps.net)
+
+---
+
 ## 📖 The Problem
 
 > Over **50 crore (500M+) people** in India face legal disputes or rights violations every year.
