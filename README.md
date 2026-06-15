@@ -170,7 +170,8 @@ Our production-ready architecture splits into a Main Query Pipeline and an MCP/C
 | 🎮 Category Simulator Mode | ![Category Simulator](assets/category_simulator.png) |
 | 🎮 Custom Simulator Mode | ![Custom Simulator](assets/custom_simulator.png) |
 | 📊 End Dashboard | *Coming Soon* |
-| 🔌 MCP in VS Code | *Coming Soon* |
+| 🔌 MCP in VS Code (Chat) | ![MCP Chat](assets/mcp.png) |
+| 🛠️ MCP Setup Proof | ![MCP Setup Proof](assets/mcp_setup_proof.png) |
 
 ---
 
