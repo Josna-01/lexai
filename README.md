@@ -166,7 +166,7 @@ Our production-ready architecture splits into a Main Query Pipeline and an MCP/C
 | 💬 Legal Chat Start | ![Chat Start](assets/chat_start.png) |
 | 💬 Legal Chat Active | ![Chat Active](assets/chat_1.png) |
 | 🧭 Simulator Mode Selection | ![Mode Selection](assets/mode_selection.png) |
-| 🎮 Rights Simulator Start | ![Simulator Start](assets/simulator_start.png) |
+| 🎮 Rights Simulator Start | ![Simulator Start](assets/simulator_starts.png) |
 | 🎮 Category Simulator Mode | ![Category Simulator](assets/category_simulator.png) |
 | 🎮 Custom Simulator Mode | ![Custom Simulator](assets/custom_simulator.png) |
 | 📊 End Dashboard | *Coming Soon* |
