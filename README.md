@@ -291,7 +291,7 @@ Open **GitHub Copilot Chat** → ask any Indian legal question → LexAI answers
 
 <div align="center">
 
-**⚖️ LexAI — Knowledge is the first step to justice.**
+**⚖️ LexAI - Knowledge is the first step to justice.**
 
 *Built with 💙 for India's 800M+ unrepresented citizens*
 
