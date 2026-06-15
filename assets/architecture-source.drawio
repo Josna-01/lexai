@@ -1,0 +1,178 @@
+<mxfile host="Electron" modified="2026-06-15T00:00:00.000Z" agent="Mozilla/5.0" version="21.0.0" type="device">
+  <diagram id="diagram_1" name="LexAI Architecture">
+    <mxGraphModel dx="1200" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1300" pageHeight="1000" background="#0f0f0f" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Layer Backgrounds (Swimlanes / Horizontal zones) -->
+        <mxCell id="layer_frontend" value="FRONTEND LAYER: React + Vite + Tailwind" style="swimlane;horizontal=0;whiteSpace=wrap;html=1;fillColor=#1e1e24;strokeColor=#444444;fontColor=#aaaaaa;align=center;verticalAlign=middle;fontStyle=1;fontSize=12;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="30" y="50" width="1140" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="layer_backend" value="BACKEND LAYER: FastAPI (Python 3.11)" style="swimlane;horizontal=0;whiteSpace=wrap;html=1;fillColor=#16161a;strokeColor=#444444;fontColor=#aaaaaa;align=center;verticalAlign=middle;fontStyle=1;fontSize=12;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="30" y="210" width="1140" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="layer_intelligence" value="INTELLIGENCE LAYER: Azure AI &amp; Gemini 2.5 Flash" style="swimlane;horizontal=0;whiteSpace=wrap;html=1;fillColor=#111115;strokeColor=#444444;fontColor=#aaaaaa;align=center;verticalAlign=middle;fontStyle=1;fontSize=12;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="30" y="400" width="1140" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="layer_storage" value="STORAGE LAYER: Supabase pgvector" style="swimlane;horizontal=0;whiteSpace=wrap;html=1;fillColor=#0d0d10;strokeColor=#444444;fontColor=#aaaaaa;align=center;verticalAlign=middle;fontStyle=1;fontSize=12;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="30" y="730" width="1140" height="200" as="geometry" />
+        </mxCell>
+        
+        <!-- Lane Dividers (Vertical labels) -->
+        <mxCell id="lane_1_label" value="LANE 1: MAIN QUERY PIPELINE" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontColor=#ffffff;fontStyle=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="250" y="15" width="220" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="lane_2_label" value="LANE 2: MCP / COPILOT EXTENSION" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontColor=#ffffff;fontStyle=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="830" y="15" width="240" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="lane_separator" value="" style="line;strokeWidth=2;direction=south;html=1;strokeColor=#444444;borderWidth=0;" vertex="1" parent="1">
+          <mxGeometry x="720" y="10" width="10" height="920" as="geometry" />
+        </mxCell>
+        
+        <!-- LANE 1 Nodes -->
+        <mxCell id="node_user_input" value="User Input&lt;br&gt;&lt;font style=&quot;font-size: 10px&quot;&gt;(Hindi / Kannada / English / Hinglish)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#25252d;strokeColor=#666666;fontColor=#ffffff;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="260" y="90" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="node_lang_detect" value="Azure AI Language Service&lt;br&gt;&lt;font style=&quot;font-size: 10px&quot;&gt;(Language Detection)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#004c87;strokeColor=#0078d4;fontColor=#ffffff;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="260" y="240" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="node_normalizer" value="Query Normalizer&lt;br&gt;&lt;font style=&quot;font-size: 10px&quot;&gt;(Gemini 2.5 Flash)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4c2567;strokeColor=#7A49A5;fontColor=#ffffff;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="260" y="325" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="node_search_decision" value="Azure AI Search&lt;br&gt;available?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#25252d;strokeColor=#666666;fontColor=#ffffff;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="285" y="420" width="150" height="90" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="node_azure_search" value="Azure AI Search&lt;br&gt;&lt;font style=&quot;font-size: 10px&quot;&gt;(Foundry IQ Index)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#004c87;strokeColor=#0078d4;fontColor=#ffffff;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="150" y="550" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="node_supabase" value="Supabase pgvector&lt;br&gt;&lt;font style=&quot;font-size: 10px&quot;&gt;(Fallback Semantic Search)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#9c5d00;strokeColor=#d97706;fontColor=#ffffff;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="410" y="550" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="node_gemini_reasoning" value="Gemini 2.5 Flash Reasoning&lt;br&gt;&lt;font style=&quot;font-size: 10px&quot;&gt;(Grounded generation with citations)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4c2567;strokeColor=#7A49A5;fontColor=#ffffff;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="255" y="650" width="210" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="node_law_found_decision" value="Law found?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#25252d;strokeColor=#666666;fontColor=#ffffff;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="745" width="140" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="node_legal_resp" value="Legal Response&lt;br&gt;&lt;font style=&quot;font-size: 10px&quot;&gt;(With mandatory citations)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#25252d;strokeColor=#666666;fontColor=#ffffff;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="150" y="850" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="node_dlsa_redirect" value="DLSA Redirect&lt;br&gt;&lt;font style=&quot;font-size: 10px&quot;&gt;(Free District Legal Services)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#9c5d00;strokeColor=#d97706;fontColor=#ffffff;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="410" y="850" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- LANE 2 Nodes -->
+        <mxCell id="node_vs_code" value="VS Code + Copilot Chat&lt;br&gt;&lt;font style=&quot;font-size: 10px&quot;&gt;(Developer Interface)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#005d5d;strokeColor=#008080;fontColor=#ffffff;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="840" y="90" width="220" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="node_mcp_server" value="LexAI MCP Server&lt;br&gt;&lt;font style=&quot;font-size: 10px&quot;&gt;(FastMCP stdio transport)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#005d5d;strokeColor=#008080;fontColor=#ffffff;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="840" y="240" width="220" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="node_mcp_tools" value="Exposed Tools:&lt;br&gt;&lt;font style=&quot;font-size: 11px&quot;&gt;• search_laws(query, limit)&lt;br&gt;• explain_law_section(act, sec)&lt;br&gt;• legal_expert_chat()&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#005d5d;strokeColor=#008080;fontColor=#ffffff;align=left;spacingLeft=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="840" y="325" width="220" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Legend (Bottom-Right corner) -->
+        <mxCell id="legend_bg" value="LEGEND" style="swimlane;horizontal=1;whiteSpace=wrap;html=1;fillColor=#16161a;strokeColor=#444444;fontColor=#ffffff;align=center;verticalAlign=top;fontStyle=1;fontSize=10;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="930" y="745" width="210" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_azure" value="Azure Services" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#004c87;strokeColor=#0078d4;fontColor=#ffffff;fontSize=9;fontStyle=1;" vertex="1" legend_bg="1">
+          <mxGeometry x="945" y="775" width="85" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_gemini" value="Gemini Reasoning" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4c2567;strokeColor=#7A49A5;fontColor=#ffffff;fontSize=9;fontStyle=1;" vertex="1" legend_bg="1">
+          <mxGeometry x="1040" y="775" width="90" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_fallback" value="Fallback Path" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#9c5d00;strokeColor=#d97706;fontColor=#ffffff;fontSize=9;fontStyle=1;" vertex="1" legend_bg="1">
+          <mxGeometry x="945" y="810" width="85" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_mcp" value="MCP / Copilot" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#005d5d;strokeColor=#008080;fontColor=#ffffff;fontSize=9;fontStyle=1;" vertex="1" legend_bg="1">
+          <mxGeometry x="1040" y="810" width="90" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_desc" value="Green outline = connected internally&lt;br&gt;Solid lines = execution pipeline" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontColor=#888888;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="940" y="845" width="190" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Connectors (LANE 1) -->
+        <mxCell id="edge_user_to_lang" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#ffffff;strokeWidth=1.5;" edge="1" source="node_user_input" target="node_lang_detect" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_lang_to_norm" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#ffffff;strokeWidth=1.5;" edge="1" source="node_lang_detect" target="node_normalizer" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_norm_to_dec" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#ffffff;strokeWidth=1.5;" edge="1" source="node_normalizer" target="node_search_decision" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="edge_dec_yes" value="YES" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#ffffff;strokeWidth=1.5;labelBackgroundColor=#0f0f0f;fontColor=#ffffff;" edge="1" source="node_search_decision" target="node_azure_search" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="230;465" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_dec_no" value="NO (fallback)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#d97706;strokeWidth=1.5;labelBackgroundColor=#0f0f0f;fontColor=#d97706;" edge="1" source="node_search_decision" target="node_supabase" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="390;465" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="edge_search_to_gem" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#ffffff;strokeWidth=1.5;" edge="1" source="node_azure_search" target="node_gemini_reasoning" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="230;630;360;630" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_sub_to_gem" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#d97706;strokeWidth=1.5;" edge="1" source="node_supabase" target="node_gemini_reasoning" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="490;630;360;630" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="edge_gem_to_dec" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#ffffff;strokeWidth=1.5;" edge="1" source="node_gemini_reasoning" target="node_law_found_decision" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="edge_law_yes" value="YES" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#ffffff;strokeWidth=1.5;labelBackgroundColor=#0f0f0f;fontColor=#ffffff;" edge="1" source="node_law_found_decision" target="node_legal_resp" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="230;785" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_law_no" value="NO" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#d97706;strokeWidth=1.5;labelBackgroundColor=#0f0f0f;fontColor=#d97706;" edge="1" source="node_law_found_decision" target="node_dlsa_redirect" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="490;785" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Connectors (LANE 2) -->
+        <mxCell id="edge_vs_to_mcp" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#008080;strokeWidth=1.5;" edge="1" source="node_vs_code" target="node_mcp_server" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_mcp_to_tools" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#008080;strokeWidth=1.5;" edge="1" source="node_mcp_server" target="node_mcp_tools" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Inter-Lane Connections (Teal dashed arrows) -->
+        <mxCell id="edge_mcp_to_azure" value="search_laws" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#008080;strokeWidth=1.5;dashed=1;fontColor=#008080;labelBackgroundColor=#0f0f0f;" edge="1" source="node_mcp_tools" target="node_azure_search" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="950;580" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_mcp_to_gemini" value="explain_law_section / legal_expert_chat" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#008080;strokeWidth=1.5;dashed=1;fontColor=#008080;labelBackgroundColor=#0f0f0f;" edge="1" source="node_mcp_tools" target="node_gemini_reasoning" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="950;680" />
+          </mxGeometry>
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
