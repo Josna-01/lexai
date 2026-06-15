@@ -101,11 +101,11 @@ const App: React.FC = () => {
   const handleStepClick = (stepNum: number) => {
     setActiveStep(stepNum);
     setIsAutoplayPaused(true);
-    
+
     if ((window as any)._stepperResumeTimeout) {
       clearTimeout((window as any)._stepperResumeTimeout);
     }
-    
+
     (window as any)._stepperResumeTimeout = setTimeout(() => {
       setIsAutoplayPaused(false);
     }, 10000);
@@ -233,7 +233,7 @@ const App: React.FC = () => {
 
       {/* Fixed Sticky Top Navbar (Global) */}
       <header className="fixed top-0 left-0 right-0 z-50 glass-nav px-10 py-2.5 grid grid-cols-3 items-center shrink-0">
-        
+
         {/* Left Zone - Logo */}
         <div className="flex justify-start">
           <button
@@ -356,7 +356,7 @@ const App: React.FC = () => {
                 <div className="lg:col-span-5 flex flex-row lg:flex-col justify-between lg:justify-start gap-6 lg:gap-10 relative">
                   {/* Vertical line behind the steps on desktop */}
                   <div className="hidden lg:block absolute left-6 top-0 bottom-0 w-[2px] bg-white/5 z-0 -translate-x-1/2">
-                    <div 
+                    <div
                       className="w-full bg-[#a855f7] shadow-[0_0_10px_#a855f7] transition-all duration-700 ease-in-out animate-pulse"
                       style={{
                         height: `${((activeStep - 1) / 3) * 100}%`,
@@ -437,31 +437,28 @@ const App: React.FC = () => {
                         <div className="flex gap-3 pt-1">
                           <button
                             onClick={() => setLanguage('en')}
-                            className={`px-5 py-2 rounded-lg text-sm font-semibold border transition-all cursor-pointer ${
-                              language === 'en'
+                            className={`px-5 py-2 rounded-lg text-sm font-semibold border transition-all cursor-pointer ${language === 'en'
                                 ? 'bg-[#a855f7]/30 border-[#a855f7] text-white shadow-[0_0_12px_rgba(168,85,247,0.3)]'
                                 : 'bg-[#0b1120]/60 border-white/10 text-slate-300 hover:border-white/25'
-                            }`}
+                              }`}
                           >
                             English
                           </button>
                           <button
                             onClick={() => setLanguage('hi')}
-                            className={`px-5 py-2 rounded-lg text-sm font-semibold border transition-all cursor-pointer ${
-                              language === 'hi'
+                            className={`px-5 py-2 rounded-lg text-sm font-semibold border transition-all cursor-pointer ${language === 'hi'
                                 ? 'bg-[#a855f7]/30 border-[#a855f7] text-white shadow-[0_0_12px_rgba(168,85,247,0.3)]'
                                 : 'bg-[#0b1120]/60 border-white/10 text-slate-300 hover:border-white/25'
-                            }`}
+                              }`}
                           >
                             हिन्दी
                           </button>
                           <button
                             onClick={() => setLanguage('kn')}
-                            className={`px-5 py-2 rounded-lg text-sm font-semibold border transition-all cursor-pointer ${
-                              language === 'kn'
+                            className={`px-5 py-2 rounded-lg text-sm font-semibold border transition-all cursor-pointer ${language === 'kn'
                                 ? 'bg-[#a855f7]/30 border-[#a855f7] text-white shadow-[0_0_12px_rgba(168,85,247,0.3)]'
                                 : 'bg-[#0b1120]/60 border-white/10 text-slate-300 hover:border-white/25'
-                            }`}
+                              }`}
                           >
                             ಕನ್ನಡ
                           </button>

@@ -1,7 +1,7 @@
 {
-  "mcp.servers": {
+  "mcpServers": {
     "lexai-helper": {
-      "command": "python",
+      "command": "c:/Users/amish/lexai/venv/Scripts/python.exe",
       "args": ["c:/Users/amish/lexai/backend/mcp_server.py"]
     }
   }

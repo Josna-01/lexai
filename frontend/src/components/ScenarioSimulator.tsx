@@ -493,7 +493,7 @@ IMPORTANT RULES:
       if (!c.explanation) return;
       let clean = c.explanation.replace(/\*/g, '').replace(/\[.*?\]/g, '').trim();
       if (clean.includes("Your choice might have unexpected consequences.")) {
-         clean = clean.replace("Your choice might have unexpected consequences.", "").trim();
+        clean = clean.replace("Your choice might have unexpected consequences.", "").trim();
       }
       const sentences = clean.split(/(?<=[.!?])\s+/);
       sentences.forEach(s => {
@@ -521,34 +521,34 @@ IMPORTANT RULES:
     });
 
     let takeaways = uniqueSentences.slice(0, 5);
-    
+
     if (takeaways.length < 5) {
       const isWage = scenario?.title?.toLowerCase().includes('wage') || scenario?.title?.toLowerCase().includes('salary');
       const isRefund = scenario?.title?.toLowerCase().includes('refund') || scenario?.title?.toLowerCase().includes('product');
-      
+
       let fallbacks = [
-         "Proper documentation and evidence strongly improve legal success.",
-         "Formal escalation to authorities is more effective than informal disputes.",
-         "Acting promptly is critical, as legal delays can weaken your case.",
-         "Consumer and labor commissions provide formal avenues for redressal.",
-         "Procedural correctness is essential when making legal claims."
+        "Proper documentation and evidence strongly improve legal success.",
+        "Formal escalation to authorities is more effective than informal disputes.",
+        "Acting promptly is critical, as legal delays can weaken your case.",
+        "Consumer and labor commissions provide formal avenues for redressal.",
+        "Procedural correctness is essential when making legal claims."
       ];
 
       if (isRefund) {
         fallbacks = [
-           "Product evidence such as photos or videos strengthens refund claims.",
-           "Consumer Commissions can order refunds, replacements, or compensation.",
-           "Bills and invoices serve as critical legal proof.",
-           "Delaying escalation weakens consumer bargaining power.",
-           "Formal legal channels are more effective than emotional confrontation."
+          "Product evidence such as photos or videos strengthens refund claims.",
+          "Consumer Commissions can order refunds, replacements, or compensation.",
+          "Bills and invoices serve as critical legal proof.",
+          "Delaying escalation weakens consumer bargaining power.",
+          "Formal legal channels are more effective than emotional confrontation."
         ];
       } else if (isWage) {
         fallbacks = [
-           "Employers cannot arbitrarily delay wages under labor law.",
-           "Written salary records strengthen unpaid wage claims.",
-           "Delayed complaints may risk limitation issues.",
-           "Labour authorities can order recovery and compensation.",
-           "Formal escalation improves chances of recovery."
+          "Employers cannot arbitrarily delay wages under labor law.",
+          "Written salary records strengthen unpaid wage claims.",
+          "Delayed complaints may risk limitation issues.",
+          "Labour authorities can order recovery and compensation.",
+          "Formal escalation improves chances of recovery."
         ];
       }
 
@@ -1040,13 +1040,13 @@ IMPORTANT RULES:
 
                     {/* Rank Progression */}
                     <div className="mt-4 pt-4 border-t border-[#a855f7]/10 text-left">
-                       <div className="flex justify-between items-center mb-1.5">
-                         <span className="text-[9px] uppercase font-bold text-[#94A3B8]">Progress to Next Rank</span>
-                         <span className="text-[9px] font-mono text-[#C084FC]">{score} / {maxPossibleScore} XP</span>
-                       </div>
-                       <div className="w-full h-1.5 bg-[#0B1120] rounded-full overflow-hidden border border-[#a855f7]/20">
-                         <div className="h-full bg-gradient-to-r from-[#A855F7] to-[#C084FC] rounded-full" style={{ width: `${(score / maxPossibleScore) * 100}%`, transition: 'width 1s ease-out' }}></div>
-                       </div>
+                      <div className="flex justify-between items-center mb-1.5">
+                        <span className="text-[9px] uppercase font-bold text-[#94A3B8]">Progress to Next Rank</span>
+                        <span className="text-[9px] font-mono text-[#C084FC]">{score} / {maxPossibleScore} XP</span>
+                      </div>
+                      <div className="w-full h-1.5 bg-[#0B1120] rounded-full overflow-hidden border border-[#a855f7]/20">
+                        <div className="h-full bg-gradient-to-r from-[#A855F7] to-[#C084FC] rounded-full" style={{ width: `${(score / maxPossibleScore) * 100}%`, transition: 'width 1s ease-out' }}></div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1097,7 +1097,7 @@ IMPORTANT RULES:
                         <span className="text-[1.2rem] font-bold text-[#C084FC] whitespace-nowrap">{Math.round((choicesMade.filter(c => c.grade === 'correct').length / 5) * 100)}%</span>
                       </div>
                     </div>
-                    
+
                     {/* Risky Decisions */}
                     <div className="p-4 bg-[#0B1120]/80 rounded-xl border border-[#a855f7]/10 flex flex-col justify-between">
                       <span className="text-[#94A3B8] text-[10px] font-bold block mb-2">Risky Decisions</span>
@@ -1144,7 +1144,7 @@ IMPORTANT RULES:
                       const levelScore = levelChoice ? levelChoice.score : 0;
                       const maxLevelScore = 15;
                       const percentage = (levelScore / maxLevelScore) * 100;
-                      
+
                       return (
                         <div key={idx} className="flex items-center gap-4">
                           <span className="text-[10px] font-bold text-[#FFFFFF] w-24 shrink-0">{idx + 1}. {levelName}</span>
@@ -1167,7 +1167,7 @@ IMPORTANT RULES:
                   <div className="relative space-y-6">
                     {(() => {
                       const takeaways = generateLegalTakeaways(choicesMade, selectedScenario);
-                      
+
                       if (takeaways.length === 0) {
                         return (
                           <div className="p-4 rounded-xl border border-dashed border-[#a855f7]/20 text-center">
@@ -1182,7 +1182,7 @@ IMPORTANT RULES:
                           {takeaways.length > 1 && (
                             <div className="absolute left-[15px] top-4 bottom-4 w-[2px] bg-gradient-to-b from-[#a855f7]/50 via-[#a855f7]/10 to-[#a855f7]/50 z-0"></div>
                           )}
-                          
+
                           <div className="space-y-6 relative z-10">
                             {takeaways.map((snippet, idx) => {
                               let Icon = ShieldCheck;
@@ -1219,7 +1219,7 @@ IMPORTANT RULES:
                   if (correctCount >= 4) achievements.push({ icon: Scale, name: 'Rights Defender' });
                   if (hasBonus) achievements.push({ icon: BookOpen, name: 'Law Explorer' });
                   if (scorePerc >= 90) achievements.push({ icon: Sparkles, name: 'Critical Thinker' });
-                  
+
                   if (achievements.length === 0) return null;
 
                   return (
