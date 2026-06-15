@@ -31,7 +31,7 @@
         </mxCell>
         
         <!-- LANE 1 Nodes -->
-        <mxCell id="node_user_input" value="User Input&lt;br&gt;&lt;font style=&quot;font-size: 10px&quot;&gt;(Hindi / Kannada / English / Hinglish)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#25252d;strokeColor=#666666;fontColor=#ffffff;fontStyle=1;" vertex="1" parent="1">
+        <mxCell id="node_user_input" value="User Input — Hindi / Kannada / English" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#25252d;strokeColor=#666666;fontColor=#ffffff;fontStyle=1;fontSize=11;" vertex="1" parent="1">
           <mxGeometry x="260" y="90" width="200" height="60" as="geometry" />
         </mxCell>
         
@@ -43,7 +43,7 @@
           <mxGeometry x="260" y="325" width="200" height="60" as="geometry" />
         </mxCell>
         
-        <mxCell id="node_search_decision" value="Azure AI Search&lt;br&gt;available?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#25252d;strokeColor=#666666;fontColor=#ffffff;fontStyle=1;" vertex="1" parent="1">
+        <mxCell id="node_search_decision" value="Azure AI Search&lt;br&gt;available?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#2a2a2a;strokeColor=#888888;fontColor=#ffffff;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="285" y="420" width="150" height="90" as="geometry" />
         </mxCell>
         
@@ -59,11 +59,11 @@
           <mxGeometry x="255" y="650" width="210" height="60" as="geometry" />
         </mxCell>
         
-        <mxCell id="node_law_found_decision" value="Law found?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#25252d;strokeColor=#666666;fontColor=#ffffff;fontStyle=1;" vertex="1" parent="1">
+        <mxCell id="node_law_found_decision" value="Law found?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#2a2a2a;strokeColor=#888888;fontColor=#ffffff;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="290" y="745" width="140" height="80" as="geometry" />
         </mxCell>
         
-        <mxCell id="node_legal_resp" value="Legal Response&lt;br&gt;&lt;font style=&quot;font-size: 10px&quot;&gt;(With mandatory citations)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#25252d;strokeColor=#666666;fontColor=#ffffff;fontStyle=1;" vertex="1" parent="1">
+        <mxCell id="node_legal_resp" value="Legal Response&lt;br&gt;&lt;font style=&quot;font-size: 10px&quot;&gt;(With mandatory citations)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#005d5d;strokeColor=#008080;fontColor=#ffffff;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="150" y="850" width="160" height="60" as="geometry" />
         </mxCell>
         
@@ -80,8 +80,8 @@
           <mxGeometry x="840" y="240" width="220" height="60" as="geometry" />
         </mxCell>
         
-        <mxCell id="node_mcp_tools" value="Exposed Tools:&lt;br&gt;&lt;font style=&quot;font-size: 11px&quot;&gt;• search_laws(query, limit)&lt;br&gt;• explain_law_section(act, sec)&lt;br&gt;• legal_expert_chat()&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#005d5d;strokeColor=#008080;fontColor=#ffffff;align=left;spacingLeft=15;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="840" y="325" width="220" height="80" as="geometry" />
+        <mxCell id="node_mcp_tools" value="search_laws() | explain_law_section() | legal_expert_chat()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#005d5d;strokeColor=#008080;fontColor=#ffffff;align=center;fontStyle=1;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="840" y="325" width="220" height="60" as="geometry" />
         </mxCell>
         
         <!-- Legend (Bottom-Right corner) -->
@@ -161,12 +161,12 @@
         </mxCell>
         
         <!-- Inter-Lane Connections (Teal dashed arrows) -->
-        <mxCell id="edge_mcp_to_azure" value="search_laws" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#008080;strokeWidth=1.5;dashed=1;fontColor=#008080;labelBackgroundColor=#0f0f0f;" edge="1" source="node_mcp_tools" target="node_azure_search" parent="1">
+        <mxCell id="edge_mcp_to_normalizer" value="query" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#008080;strokeWidth=1.5;dashed=1;fontColor=#008080;labelBackgroundColor=#0f0f0f;" edge="1" source="node_mcp_tools" target="node_normalizer" parent="1">
           <mxGeometry relative="1" as="geometry">
-            <Array points="950;580" />
+            <Array points="650;355" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="edge_mcp_to_gemini" value="explain_law_section / legal_expert_chat" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#008080;strokeWidth=1.5;dashed=1;fontColor=#008080;labelBackgroundColor=#0f0f0f;" edge="1" source="node_mcp_tools" target="node_gemini_reasoning" parent="1">
+        <mxCell id="edge_mcp_to_gemini" value="result" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#008080;strokeWidth=1.5;dashed=1;fontColor=#008080;labelBackgroundColor=#0f0f0f;" edge="1" source="node_mcp_tools" target="node_gemini_reasoning" parent="1">
           <mxGeometry relative="1" as="geometry">
             <Array points="950;680" />
           </mxGeometry>
