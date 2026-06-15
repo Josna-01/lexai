@@ -35,7 +35,7 @@ LexAI bridges the gap between Indian citizens and the law using **AI-powered leg
 LexAI uses the **Google AI Studio Gemini API Free Tier** for query translation and reasoning. If multiple judges test the dynamic chat assistant or custom simulator simultaneously, you may experience temporary rate-limiting errors (`429: Resource exhausted`).
 
 **If you encounter rate limits:**
-1. **Play the Rights Simulator (Category Mode)**: The simulator scenarios (withheld wages, defective products, cyber harassment) are **fully pre-generated and run entirely locally**. They do not make live AI API calls and will work **100% of the time**.
+1. **Play the Rights Simulator (Category Mode)**: The curated simulator scenarios are pre-generated and significantly less dependent on live AI generation, making them the most stable demo path during heavy traffic.
 2. **Semantic Search Fallback**: If Azure AI Search limits are reached, the system automatically falls back to a **Supabase pgvector** database index to fetch legal chunks.
 3. Try again in 60 seconds once the free tier window resets.
 
@@ -168,7 +168,7 @@ Our production-ready architecture splits into a Main Query Pipeline and an MCP/C
 | 🧭 Simulator Mode Selection | ![Mode Selection](assets/mode_selection.png) |
 | 🎮 Rights Simulator Start | ![Simulator Start](assets/simulator_start.png) |
 | 🎮 Category Simulator Mode | ![Category Simulator](assets/category_simulator.png) |
-| 🎮 Custom Simulator Mode | ![Custom Simulator](assets/custom%20simulator.png) |
+| 🎮 Custom Simulator Mode | ![Custom Simulator](assets/custom_simulator.png) |
 | 📊 End Dashboard | *Coming Soon* |
 | 🔌 MCP in VS Code | *Coming Soon* |
 
@@ -247,8 +247,8 @@ Open **GitHub Copilot Chat** → ask any Indian legal question → LexAI answers
 | 🤖 LLM | Gemini 2.5 Flash |
 | 🗄️ Fallback DB | Supabase pgvector |
 
-> 💡 Current rapid-iteration deployment uses Vercel (frontend) + Render.com (backend).
-> Production architecture is fully Azure-native for enterprise scalability and Microsoft ecosystem alignment.
+> 💡 **Current Live Hackathon Deployment**: Frontend runs on **Azure Static Web Apps** and the FastAPI backend runs on **Render.com**.
+> Production architecture is designed to migrate fully to Azure services for enterprise scalability.
 
 ---
 
@@ -285,7 +285,7 @@ Open **GitHub Copilot Chat** → ask any Indian legal question → LexAI answers
 
 | Name | Role | Core Contributions |
 |------|------|---|
-| **Amisha Josna D'Souza** | Developer | End-to-end architecture, FastAPI RAG implementation, Azure integration, MCP Server development, and React dashboard UI. |
+| **Amisha Josna D'Souza** | Lead Developer & System Architect | End-to-end architecture, FastAPI RAG implementation, Azure integration, MCP Server development, and React dashboard UI. |
 
 ---
 
