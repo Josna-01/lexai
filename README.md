@@ -41,7 +41,7 @@ LexAI uses the **Google AI Studio Gemini API Free Tier** for query translation a
 
 ## 📖 The Problem
 
-> Over **50 crore (500M+) people** in India face legal disputes or rights violations every year.
+> Millions of people in India face legal disputes or rights violations every year.
 > Fewer than **10%** can afford legal representation.
 
 The rest - daily wage workers, online shoppers, domestic helpers, college students — are left vulnerable because:
@@ -169,7 +169,6 @@ Our production-ready architecture splits into a Main Query Pipeline and an MCP/C
 | 🎮 Rights Simulator Start | ![Simulator Start](assets/simulator_starts.png) |
 | 🎮 Category Simulator Mode | ![Category Simulator](assets/category_simulator.png) |
 | 🎮 Custom Simulator Mode | ![Custom Simulator](assets/custom_simulator.png) |
-| 📊 End Dashboard | *Coming Soon* |
 | 🔌 MCP in VS Code (Chat) | ![MCP Chat](assets/mcp.png) |
 | 🛠️ MCP Setup Proof | ![MCP Setup Proof](assets/mcp_setup_proof.png) |
 
@@ -237,12 +236,12 @@ Open **GitHub Copilot Chat** → ask any Indian legal question → LexAI answers
 
 ---
 
-## ☁️ Production Architecture (Azure-Native)
+## ☁️ Production Architecture (Hybrid Cloud)
 
 | Layer | Platform |
 |---|---|
 | 🌐 Frontend | **Azure Static Web Apps** |
-| ⚙️ Backend | **Azure App Service** |
+| ⚙️ Backend | **Render (FastAPI)** |
 | 🔍 Knowledge Base | **Azure AI Search (Foundry IQ)** |
 | 🗣️ Language Detection | **Azure AI Language Service** |
 | 🤖 LLM | Gemini 3.5 Flash |
@@ -286,7 +285,7 @@ Open **GitHub Copilot Chat** → ask any Indian legal question → LexAI answers
 
 | Name | Role | Core Contributions |
 |------|------|---|
-| **Amisha Josna Dsouza** | Lead Developer & System Architect | End-to-end architecture, FastAPI RAG implementation, Azure integration, MCP Server development, and React dashboard UI. |
+| **Amisha Josna Dsouza** | Lead Developer | Full-stack Development, Azure Integration, MCP Server, UI/UX |
 
 ---
 
