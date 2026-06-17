@@ -1,9 +1,9 @@
 <div align="center">
 
 # ⚖️ LexAI
-## Multilingual Legal Aid for 800M+ Indian Citizens
+## Multilingual Legal Aid for Indian Citizens
 
-**_Millions in India lose wages, refunds, and rights — not because laws don't protect them, but because they can't understand those laws._**
+**_Millions in India lose wages, refunds, and rights - not because laws don't protect them, but because they can't understand those laws._**
 
 LexAI bridges the gap between Indian citizens and the law using **AI-powered legal intelligence**, **multilingual understanding**, and **gamified civic education** — all grounded in verified legislation via the Microsoft Azure ecosystem.
 
